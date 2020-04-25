@@ -1,6 +1,6 @@
 package com.musicplayer.scanner;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines the minimum framework to implement a scanner to be a drop-in replacement in Main.
@@ -9,11 +9,11 @@ import java.util.ArrayList;
  */
 public interface Scanner {
 	// get the cover art to display
-	public ArrayList<String> getCoverArt();
+	public List<String> getCoverArt();
 	// get all the music files to play
-	public ArrayList<String> getAllMusicFiles();
+	public List<String> getAllMusicFiles();
 	// get all the images associated with the content
-	public ArrayList<String> getAllImageFiles();
+	public List<String> getAllImageFiles();
 	// get the name of the album that will be played
 	// (is ideally then replaced by the album gotten from the player)
 	public String getAlbumName();

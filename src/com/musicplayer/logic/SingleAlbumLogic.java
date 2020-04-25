@@ -1,6 +1,6 @@
 package com.musicplayer.logic;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.musicplayer.gui.GUI;
 import com.musicplayer.gui.SwingGUI;
@@ -20,9 +20,9 @@ public class SingleAlbumLogic implements Logic {
 	private static Player player;
 	private static final String DEFAULT_ART = "default.png";
 	private static Scanner scanner;
-	private static ArrayList<String> songs;
-	private static ArrayList<String> covers;
-	private static ArrayList<String> images;
+	private static List<String> songs;
+	private static List<String> covers;
+	private static List<String> images;
 	private static String albumArt;
 	private static GUI gui;
 	
