@@ -198,7 +198,7 @@ public class VLCJListPlayer implements Player{
 	 * @param r > ideally a lambda function that uses the functions below to get their info
 	 */
 	public void setUpdateMediaAction(Runnable r) {
-		this.mediaUpdateAction = r;
+		mediaUpdateAction = r;
 	}
 	
 	/**
