@@ -26,8 +26,8 @@ import uk.co.caprica.vlcj.player.list.PlaybackMode;
 public class VLCJListPlayer implements Player{
 	private MediaPlayerFactory mediaPlayerFactory;
 	private final EmbeddedMediaPlayer mediaPlayerComponent;
-	public final int MAX_VOLUME = 100;
-	public final int MIN_VOLUME = 0;
+	public static final int MAX_VOLUME = 100;
+	public static final int MIN_VOLUME = 0;
 	public static final int NEXT_ITEM_TIMEOUT = 5000;// In milli secondes
 	
 	private Runnable mediaUpdateAction;

@@ -12,16 +12,16 @@ import com.musicplayer.misc.Helper;
  *
  */
 public class FolderScanner implements Scanner{
-	private final String DIR_MSG = "%s isn't a valid directory.";
-	private final String EXIST_MSG = "%s doesn't exist.";
+	private static final String DIR_MSG = "%s isn't a valid directory.";
+	private static final String EXIST_MSG = "%s doesn't exist.";
 	
-	private final String COVER_REGEX = "(\\/.*\\/)*([Cc](over|OVER))([^\\/]*)";
+	private static final String COVER_REGEX = "(\\/.*\\/)*([Cc](over|OVER))([^\\/]*)";
 	
-	private final String[] MUSIC_FORMATS = {"flac", "opus", "mp3", "wav", "ogg"}; // accepted music format
+	private static final String[] MUSIC_FORMATS = {"flac", "opus", "mp3", "wav", "ogg"}; // accepted music format
 	// if using the VLCJ player, there are probably more.
 	// As far as actually encountering them goes...
 	// Your library should only be Flac / Opus and mp3 for the stuff you couldn't find lossless
-	private final String[] IMAGE_FORMATS = {"png", "jpg", "jpeg"}; // same here
+	private static final String[] IMAGE_FORMATS = {"png", "jpg", "jpeg"}; // same here
 	
 	private String path;
 	private String[] scan;
