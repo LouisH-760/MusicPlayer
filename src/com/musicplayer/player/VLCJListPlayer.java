@@ -71,7 +71,6 @@ public class VLCJListPlayer implements Player{
 			 }
 		 });
 		 setVolume(MAX_VOLUME); // reset the volume when the player is created
-		 volume = MAX_VOLUME;
 	}
 	
 	/**
@@ -147,6 +146,8 @@ public class VLCJListPlayer implements Player{
 		Helper.check(volume <= MAX_VOLUME, "You cannot set the volume this high");
 		Helper.check(volume >= MIN_VOLUME, "You cannot set the volume this low");
 		mediaListPlayer.mediaPlayer().mediaPlayer().audio().setVolume(volume);
+		this.volume = volume;
+		System.out.println("New volume: " + volume);
 	}
 	
 	/**
@@ -155,11 +156,8 @@ public class VLCJListPlayer implements Player{
 	 * edit it through setVolumeIncrement
 	 */
 	public void volumeUp() {
-		if(volume <= MAX_VOLUME - incr) {
-			volume += incr;
-			setVolume(volume);
-			System.out.println("New volume: " + volume);
-		}
+		if(volume <= MAX_VOLUME - incr)
+			setVolume(volume + incr);
 	}
 	
 	/**
@@ -168,11 +166,8 @@ public class VLCJListPlayer implements Player{
 	 * edit it through setVolumeIncrement
 	 */
 	public void volumeDown() {
-		if(volume > MIN_VOLUME + incr) {
-			volume -= incr;
-			setVolume(volume);
-			System.out.println("New volume: " + volume);
-		}
+		if(volume > MIN_VOLUME + incr)
+			setVolume(volume - incr);
 	}
 
 	/**
