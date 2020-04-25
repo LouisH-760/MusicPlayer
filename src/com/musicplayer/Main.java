@@ -65,29 +65,27 @@ public class Main {
 		// uses lambdas.
 		gui.setNextAction(() -> player.next());
 		gui.setPauseAction(() -> {
-			if (player.isPaused()) { // if the player is paused
-				player.play(); // then play
-			} else {
-				player.pause(); // else, pause playback
-			}
-		});
+				if (player.isPaused()) // if the player is paused
+					player.play(); // then play
+				else
+					player.pause(); // else, pause playback
+			});
 		gui.setPreviousAction(() -> player.previous());
 		gui.setVUpAction(() -> player.volumeUp());
 		gui.setVDownAction(() -> player.volumeDown());
 		gui.setTrackLabel(scanner.getAlbumName());
 		player.setUpdateMediaAction(() -> {
-			String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); // test label to check for
-																								// width
-			if (!gui.isStringTooWide(withArtist)) { // if it is narrow enough to fit on the screen
-				gui.setTrackLabel(withArtist); // display title and artist (artist - title)
-			} else {
-				gui.setTrackLabel(player.nowPlayingTitle()); // else, only display the title
-			}
-
-			gui.setWindowName(player.nowPlayingAlbum()); // since we extracted metadata from the song, get album name
-															// from here
-			// allows / , trailing ., ....
-		});
+				String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); // test label to check for
+																									// width
+				if (!gui.isStringTooWide(withArtist)) // if it is narrow enough to fit on the screen
+					gui.setTrackLabel(withArtist); // display title and artist (artist - title)
+				else
+					gui.setTrackLabel(player.nowPlayingTitle()); // else, only display the title
+	
+				gui.setWindowName(player.nowPlayingAlbum()); // since we extracted metadata from the song, get album name
+																// from here
+				// allows / , trailing ., ....
+			});
 		// add all the songs we found to the playback
 		player.addMultiple(songs);
 		// show the gui
