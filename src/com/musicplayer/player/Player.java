@@ -1,6 +1,6 @@
 package com.musicplayer.player;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines the minimum framework to implement a player to be a drop-in replacement in Main.
@@ -14,7 +14,7 @@ public interface Player {
 	public void add(String song);
 	// add multiple songs to the play queue
 	// (can technically be done after starting playing)
-	public void addMultiple(ArrayList<String> songs);
+	public void addMultiple(List<String> songs);
 	// start / resume playback
 	public void play();
 	// pause playback

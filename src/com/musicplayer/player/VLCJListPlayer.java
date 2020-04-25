@@ -1,7 +1,7 @@
 package com.musicplayer.player;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.musicplayer.misc.Helper;
 
@@ -93,7 +93,7 @@ public class VLCJListPlayer implements Player{
 	 * Add multiple songs to the queue (using their path)
 	 * @param songs: arraylist of paths to the audio files
 	 */
-	public void addMultiple(ArrayList<String> songs) {
+	public void addMultiple(List<String> songs) {
 		for(String song : songs)
 			add(song);
 	}
