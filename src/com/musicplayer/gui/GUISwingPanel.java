@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -18,6 +17,7 @@ import javax.swing.JPanel;
  */
 public class GUISwingPanel extends JPanel {
 	private static final long serialVersionUID = 2L;
+	private static final CoverDisplayType COVER_DISPLAY_TYPE = CoverDisplayType.SEE_WHOLE_COVER;
 
 	private String filename;
 
@@ -40,15 +40,23 @@ public class GUISwingPanel extends JPanel {
 				// eg tape cover, only front and not whole J-card
 				float ratioHeight = (float)getHeight() / h;
 				float ratioWidth = (float)getWidth() / w;
+				float ratio;
 				
-				//Looking for the minimum ratio of width or height to fit into the panel
-				if (ratioHeight > ratioWidth) {//When scaling up, the width go out of the panel width first
-					int newHeight = (int) (h*ratioWidth);
-					g.drawImage(img, 0, (getHeight() - newHeight)/2, (int)(w*ratioWidth), newHeight, this);
-				} else {//When scaling up, the height go out of the panel height first
-					int newWidth = (int) (w*ratioHeight);
-					g.drawImage(img, (getWidth() - newWidth)/2, 0, newWidth, (int)(h*ratioHeight), this);
+				switch (COVER_DISPLAY_TYPE) {
+				case FILL_DISPLAY:
+					ratio = Math.max(ratioWidth, ratioHeight);//Looking for the maximum ratio of width or height to fill the panel
+					break;
+				case SEE_WHOLE_COVER:
+					ratio = Math.min(ratioWidth, ratioHeight);//Looking for the minimum ratio of width or height to fit into the panel
+					break;
+				default:
+					throw new IllegalArgumentException("Wrong cover display parameter");
 				}
+				
+				int newHeight = (int) (h*ratio);
+				int newWidth = (int) (w*ratio);
+				//Setting marges
+				g.drawImage(img, (getWidth() - newWidth)/2, (getHeight() - newHeight)/2, newWidth, newHeight, this);
 				// image is centered and rezise to match width or height of the panel
 			} catch (Exception e) {
 				System.out.println("Error (" + e.toString() + ") while loading the picture");
