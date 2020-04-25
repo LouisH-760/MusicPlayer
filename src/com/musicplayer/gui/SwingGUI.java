@@ -47,11 +47,11 @@ public class SwingGUI  extends JFrame implements GUI{
 		panel = new GUISwingPanel();
 		trackInfo = new JPanel();
 		
-		this.setTitle(title);
-		this.setSize(WIDTH, HEIGHT);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		setTitle(title);
+		setSize(WIDTH, HEIGHT);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setResizable(false);
 		
 		container.setLayout(new BorderLayout());
 		container.add(panel, BorderLayout.CENTER);
@@ -64,7 +64,7 @@ public class SwingGUI  extends JFrame implements GUI{
 		trackInfo.add(trackLabel);
 		container.add(trackInfo, BorderLayout.NORTH);
 		container.add(navigation, BorderLayout.SOUTH);
-		this.setContentPane(container);
+		setContentPane(container);
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 * Show the window
 	 */
 	public void showWindow() {
-		this.setVisible(true);
+		setVisible(true);
 	}
 	
 	/**
