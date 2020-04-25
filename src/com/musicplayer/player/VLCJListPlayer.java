@@ -26,17 +26,18 @@ import uk.co.caprica.vlcj.player.list.PlaybackMode;
 public class VLCJListPlayer implements Player{
 	private MediaPlayerFactory mediaPlayerFactory;
 	private final EmbeddedMediaPlayer mediaPlayerComponent;
-	public final int MAX_VOLUME = 100;
-	public final int MIN_VOLUME = 0;
+	public static final int MAX_VOLUME = 100;
+	public static final int MIN_VOLUME = 0;
+	public static final int NEXT_ITEM_TIMEOUT = 5000;// In milli secondes
 	
-	Runnable mediaUpdateAction;
+	private Runnable mediaUpdateAction;
 	
 	private MediaListPlayer mediaListPlayer;
 	private MediaList mediaList;
 	private MediaListRef mediaListRef;
 	private boolean paused;
 	private int volume;
-	private int incr;
+	private int incr = 5;
 	
 	private Media currentMedia;
 	
@@ -58,22 +59,18 @@ public class VLCJListPlayer implements Player{
 			 @Override
 			 public void nextItem(MediaListPlayer mediaListPlayer, MediaRef item) {
 				 currentMedia = item.duplicateMedia(); // get a copy of the media that it is now playing to parse
-				 currentMedia.parsing().parse(5000); // 5 seconds timeout
+				 currentMedia.parsing().parse(NEXT_ITEM_TIMEOUT);
 				 // when it has finished parsing
 				 currentMedia.events().addMediaEventListener(new MediaEventAdapter() {
 					 public void mediaParsedChanged(Media media, MediaParsedStatus status) {
 						 if(status == MediaParsedStatus.DONE) // if it succeeded
-						 {
 							 mediaUpdateAction.run(); // run the updates on the metadata
-						 }
 						 currentMedia.release(); // release the media anyway to free up RAM and not get garbage-collected into a crash
 					 }
 				 });
 			 }
 		 });
 		 setVolume(MAX_VOLUME); // reset the volume when the player is created
-		 volume = MAX_VOLUME;
-		 incr = 5;
 	}
 	
 	/**
@@ -97,9 +94,8 @@ public class VLCJListPlayer implements Player{
 	 * @param songs: arraylist of paths to the audio files
 	 */
 	public void addMultiple(ArrayList<String> songs) {
-		for(String song : songs) {
+		for(String song : songs)
 			add(song);
-		}
 	}
 	
 	/**
@@ -150,6 +146,8 @@ public class VLCJListPlayer implements Player{
 		Helper.check(volume <= MAX_VOLUME, "You cannot set the volume this high");
 		Helper.check(volume >= MIN_VOLUME, "You cannot set the volume this low");
 		mediaListPlayer.mediaPlayer().mediaPlayer().audio().setVolume(volume);
+		this.volume = volume;
+		System.out.println("New volume: " + volume);
 	}
 	
 	/**
@@ -158,11 +156,8 @@ public class VLCJListPlayer implements Player{
 	 * edit it through setVolumeIncrement
 	 */
 	public void volumeUp() {
-		if(volume <= MAX_VOLUME - incr) {
-			volume += incr;
-			setVolume(volume);
-			System.out.println("New volume: " + volume);
-		}
+		if(volume <= MAX_VOLUME - incr)
+			setVolume(volume + incr);
 	}
 	
 	/**
@@ -171,11 +166,8 @@ public class VLCJListPlayer implements Player{
 	 * edit it through setVolumeIncrement
 	 */
 	public void volumeDown() {
-		if(volume > MIN_VOLUME + incr) {
-			volume -= incr;
-			setVolume(volume);
-			System.out.println("New volume: " + volume);
-		}
+		if(volume > MIN_VOLUME + incr)
+			setVolume(volume - incr);
 	}
 
 	/**
@@ -206,7 +198,7 @@ public class VLCJListPlayer implements Player{
 	 * @param r > ideally a lambda function that uses the functions below to get their info
 	 */
 	public void setUpdateMediaAction(Runnable r) {
-		this.mediaUpdateAction = r;
+		mediaUpdateAction = r;
 	}
 	
 	/**

@@ -21,7 +21,7 @@ public class Button extends JButton implements MouseListener{
 	 */
 	public Button(String str){
 		super(str);
-		this.addMouseListener(this);
+		addMouseListener(this);
 	}
 
 	/**
