@@ -15,7 +15,7 @@ public class Helper {
 	 * @param message > String, passed to the exceptions thrown
 	 */
 	public static void check(boolean condition, String message) {
-		if(!condition) { throw new IllegalArgumentException(message);}
+		if(!condition) throw new IllegalArgumentException(message);
 	}
 	
 	/**
@@ -28,10 +28,10 @@ public class Helper {
 		int i = path.lastIndexOf('.');
 		int p = Math.max(path.lastIndexOf(SEP), path.lastIndexOf('\\'));
 
-		if (i > p) {
+		if (i > p) 
 		    extension = path.substring(i+1);
-		}
-		return (extension.equals(DEFAULT_STR))? null : extension;
+		
+		return (extension.equals(DEFAULT_STR)) ? null : extension;
 	}
 	
 	/**
@@ -41,6 +41,6 @@ public class Helper {
 	 * @return fixed path
 	 */
 	public static String trailingSep(String path) {
-		return (path.substring(path.length() - 1).contentEquals(SEP))? path : path + SEP;
+		return (path.substring(path.length() - SEP.length()).contentEquals(SEP)) ? path : path + SEP;
 	}
 }
