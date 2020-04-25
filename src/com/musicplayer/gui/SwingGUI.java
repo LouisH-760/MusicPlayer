@@ -26,10 +26,9 @@ public class SwingGUI  extends JFrame implements GUI{
 	private Button vUp;
 	private Button vDown;
 	private JLabel trackLabel;
-	Runnable nextAction;
 	
-	private final int width = 275;
-	private final int height = width + 75;
+	private final int WIDTH = 275;
+	private final int HEIGHT = WIDTH + 75;
 	
 	/**
 	 * Initialize the window
@@ -49,7 +48,7 @@ public class SwingGUI  extends JFrame implements GUI{
 		trackInfo = new JPanel();
 		
 		this.setTitle(title);
-		this.setSize(width, height);
+		this.setSize(WIDTH, HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
@@ -89,7 +88,7 @@ public class SwingGUI  extends JFrame implements GUI{
 		JLabel label = new JLabel(str);
 		label.setSize(label.getPreferredSize());
 		int potentialWidth = label.getWidth();
-		int maxWidth = width;
+		int maxWidth = WIDTH;
 		return potentialWidth > maxWidth;
 	}
 	
