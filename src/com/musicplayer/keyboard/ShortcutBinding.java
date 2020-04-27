@@ -78,10 +78,12 @@ public class ShortcutBinding {
 	 * @return
 	 */
 	private boolean isIn (Object[] os, int id) {
-		for (Object o : os)
-			if (o instanceof Integer)
-				if (((Integer)o).intValue() == id)
-					return true;
+		if(os != null) {
+			for (Object o : os)
+				if (o instanceof Integer)
+					if (((Integer)o).intValue() == id)
+						return true;
+		}
 		return false;
 	}
 	
