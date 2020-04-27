@@ -21,6 +21,10 @@ public class VLCJSingleTrackPlayer {
 	private Runnable finishedAction;
 	private Runnable positionUpdatedAction;
 	
+	/**
+	 * create a new instance of a player that will only play a single track
+	 * @param path > path to the media
+	 */
 	public VLCJSingleTrackPlayer(String path) {
 		mediaPlayerComponent = new AudioPlayerComponent();
 		mediaPlayerComponent.mediaPlayer().media().prepare(path);
@@ -60,56 +64,109 @@ public class VLCJSingleTrackPlayer {
 		});
 	}
 	
+	/**
+	 * Start / resume playback
+	 * throws an exception if parsing isn't done
+	 */
 	public void play() {
 		Helper.check(ready, "Song is not ready yet!");
 		mediaPlayerComponent.mediaPlayer().media().play(song.newMediaRef());
 		song.release();
 	}
 	
+	/**
+	 * Pause playback
+	 */
 	public void pause() {
 		mediaPlayerComponent.mediaPlayer().controls().pause();
 	}
 	
+	/**
+	 * stop playback
+	 */
 	public void stop() {
 		mediaPlayerComponent.mediaPlayer().controls().stop();
 	}
 	
+	/**
+	 * free all the ressources
+	 */
 	public void release() {
+		if(song != null) {
+			song.release();
+		}
 		mediaPlayerComponent.release();
 	}
 	
+	/**
+	 * set the volume precisely
+	 * @param volume
+	 */
 	public void setVolume(int volume) {
 		mediaPlayerComponent.mediaPlayer().audio().setVolume(volume);
 	}
 	
+	/**
+	 * get the current media's artist
+	 * @return artist
+	 */
 	public String getArtist() {
 		return artist;
 	}
 	
+	// the three following functions return null if the parsing is not done
+	/**
+	 * get the current media's album
+	 * @return album
+	 */
 	public String getAlbum() {
 		return album;
 	}
 	
+	/**
+	 * return the current media's title
+	 * @return title
+	 */
 	public String getTitle() {
 		return title;
 	}
-
+	
+	/**
+	 * set what to run once the song finishes
+	 * @param r
+	 */
 	public void setFinishedAction(Runnable r) {
 		finishedAction = r;
 	}
 	
+	/**
+	 * get the duration of the song
+	 * @return duration (long, in milliseconds)
+	 */
 	public long getDuration() {
 		return mediaPlayerComponent.mediaPlayer().status().length();
 	}
 	
+	/**
+	 * get the current playback position
+	 * @return float between 0 (beginning) and 1 (end)
+	 */
 	public float getPosition() {
 		return mediaPlayerComponent.mediaPlayer().status().position();
 	}
 	
+	/**
+	 * what to run when the position updates
+	 * @param r
+	 */
 	public void setPositionUpdatedAction(Runnable r) {
 		positionUpdatedAction = r;
 	}
 	
+	/**
+	 * set the playback position
+	 * @param position float between 0 (beginning) and 1 (end)
+	 */
 	public void setPosition(float position) {
 		mediaPlayerComponent.mediaPlayer().controls().setPosition(position);
 	}
