@@ -2,10 +2,13 @@ package com.musicplayer.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.musicplayer.keyboard.ShortcutBinding;
 
 /**
  * Create a Swing GUI for the player
@@ -27,6 +30,8 @@ public class SwingGUI  extends JFrame implements GUI{
 	private Button vDown;
 	private JLabel trackLabel;
 	
+	private ShortcutBinding sb;
+
 	private final int WIDTH = 275;
 	private final int HEIGHT = WIDTH + 75;
 	
@@ -41,12 +46,22 @@ public class SwingGUI  extends JFrame implements GUI{
 		previous = new Button("◄");
 		vUp = new Button("🔊");
 		vDown = new Button("🔉");
-		container = new JPanel();
+		container = (JPanel) getContentPane();//No need to build a new JPanel
 		navigation = new JPanel();
 		trackLabel = new JLabel("Empty");
 		panel = new GUISwingPanel();
 		trackInfo = new JPanel();
 		
+		sb = new ShortcutBinding(this);
+		
+		//To avoid focus and space key not working shortcut
+		next.setFocusable(false);
+		pause.setFocusable(false);
+		previous.setFocusable(false);
+		vUp.setFocusable(false);
+		vDown.setFocusable(false);
+		
+		setFocusable(true);
 		setTitle(title);
 		setSize(WIDTH, HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +79,7 @@ public class SwingGUI  extends JFrame implements GUI{
 		trackInfo.add(trackLabel);
 		container.add(trackInfo, BorderLayout.NORTH);
 		container.add(navigation, BorderLayout.SOUTH);
-		setContentPane(container);
+		
 	}
 	
 	/**
@@ -114,6 +129,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setNextAction(Runnable r) {
 		next.setClicked(r);
+		sb.addBind(KeyEvent.VK_RIGHT, 0, r);
 	}
 	
 	/**
@@ -123,6 +139,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setPreviousAction(Runnable r) {
 		previous.setClicked(r);
+		sb.addBind(KeyEvent.VK_LEFT, 0, r);
 	}
 
 	/**
@@ -132,6 +149,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setPauseAction(Runnable r) {
 		pause.setClicked(r);
+		sb.addBind(KeyEvent.VK_SPACE, 0, r);
 	}
 	
 	/**
@@ -141,6 +159,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setVUpAction(Runnable r) {
 		vUp.setClicked(r);
+		sb.addBind(KeyEvent.VK_UP, 0, r);
 	}
 	
 	/**
@@ -150,6 +169,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setVDownAction(Runnable r) {
 		vDown.setClicked(r);
+		sb.addBind(KeyEvent.VK_DOWN, 0, r);
 	}
 
 }
