@@ -33,7 +33,6 @@ public class Helper {
 		
 		return (extension.equals(DEFAULT_STR)) ? null : extension;
 	}
-	
 	/**
 	 * Check if a path ends with a "/".
 	 * if not, adds it
