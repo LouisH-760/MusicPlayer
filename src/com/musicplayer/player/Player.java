@@ -49,4 +49,6 @@ public interface Player {
 	public String nowPlayingArtist();
 	// get the album of the current playing media
 	public String nowPlayingAlbum();
+	// get the current volume
+	public int getVolume();
 }

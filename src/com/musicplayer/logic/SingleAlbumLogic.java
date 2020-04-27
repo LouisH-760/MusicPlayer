@@ -75,8 +75,14 @@ public class SingleAlbumLogic implements Logic {
 					player.pause(); // else, pause playback
 			});
 		gui.setPreviousAction(() -> player.previous());
-		gui.setVUpAction(() -> player.volumeUp());
-		gui.setVDownAction(() -> player.volumeDown());
+		gui.setVUpAction(() -> {
+			System.out.println("New volume: " + player.getVolume());
+			player.volumeUp();
+		});
+		gui.setVDownAction(() -> {
+			System.out.println("New volume: " + player.getVolume());
+			player.volumeDown();
+		});
 		gui.setTrackLabel(scanner.getAlbumName());
 		player.setUpdateMediaAction(() -> {
 				String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); // test label to check for

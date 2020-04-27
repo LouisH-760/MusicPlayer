@@ -147,7 +147,14 @@ public class VLCJListPlayer implements Player{
 		Helper.check(volume >= MIN_VOLUME, "You cannot set the volume this low");
 		mediaListPlayer.mediaPlayer().mediaPlayer().audio().setVolume(volume);
 		this.volume = volume;
-		System.out.println("New volume: " + volume);
+	}
+	
+	/**
+	 * get the volume level
+	 * @return volume
+	 */
+	public int getVolume() {
+		return volume;
 	}
 	
 	/**
