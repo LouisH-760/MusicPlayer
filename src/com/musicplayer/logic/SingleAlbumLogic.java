@@ -5,7 +5,7 @@ import java.util.List;
 import com.musicplayer.gui.GUI;
 import com.musicplayer.gui.SwingGUI;
 import com.musicplayer.player.Player;
-import com.musicplayer.player.VLCJSinglePlayer;
+import com.musicplayer.player.VLCJListPlayer;
 import com.musicplayer.scanner.FolderScanner;
 import com.musicplayer.scanner.Scanner;
 
@@ -42,7 +42,7 @@ public class SingleAlbumLogic implements Logic {
 		// Dropping in a new Scanner, gui or player should only induce changes here
 		scanner = new FolderScanner(args[0]);
 		gui = new SwingGUI(scanner.getAlbumName());
-		player = new VLCJSinglePlayer();
+		player = new VLCJListPlayer();
 
 		// get the songs and images from the scanner
 		songs = scanner.getAllMusicFiles();
