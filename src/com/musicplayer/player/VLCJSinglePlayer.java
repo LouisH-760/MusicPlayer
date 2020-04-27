@@ -160,5 +160,9 @@ public class VLCJSinglePlayer implements Player {
 	public void setPositionUpdatedAction(Runnable r) {
 		positionUpdatedAction = r;
 	}
+	
+	public void setPosition(float position) {
+		players.get(this.position).setPosition(position);
+	}
 
 }

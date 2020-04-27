@@ -109,4 +109,8 @@ public class VLCJSingleTrackPlayer {
 	public void setPositionUpdatedAction(Runnable r) {
 		positionUpdatedAction = r;
 	}
+	
+	public void setPosition(float position) {
+		mediaPlayerComponent.mediaPlayer().controls().setPosition(position);
+	}
 }
