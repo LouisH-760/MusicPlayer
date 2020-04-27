@@ -12,10 +12,11 @@ import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
 public class VLCJSingleTrackPlayer {
 
+	private final float DELTA = 0.005f;
+	
 	private String artist;
 	private String album;
 	private String title;
-	private long duration;
 	private boolean ready;
 	private AudioPlayerComponent mediaPlayerComponent;
 	private Media song;
@@ -49,6 +50,13 @@ public class VLCJSingleTrackPlayer {
 		    @Override
 		    public void error(MediaPlayer mediaPlayer) {
 		    	finishedAction.run();
+		    }
+		    
+		    @Override
+		    public void positionChanged(MediaPlayer mediaPlayer, float newPosition) {
+		    	if(newPosition > (1f - DELTA)) {
+		    		finishedAction.run();
+		    	}
 		    }
 		});
 	}
@@ -89,5 +97,13 @@ public class VLCJSingleTrackPlayer {
 
 	public void setFinishedAction(Runnable r) {
 		finishedAction = r;
+	}
+	
+	public long getDuration() {
+		return mediaPlayerComponent.mediaPlayer().status().length();
+	}
+	
+	public float getPosition() {
+		return mediaPlayerComponent.mediaPlayer().status().position();
 	}
 }

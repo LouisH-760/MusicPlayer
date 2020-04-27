@@ -11,6 +11,7 @@ public class VLCJSinglePlayer implements Player {
 	public final int MIN_VOLUME = 0;
 	
 	private final Runnable finishedAction;
+	private  Runnable trackChanged;
 	
 	private List<VLCJSingleTrackPlayer> players;
 	private int position;
@@ -43,6 +44,7 @@ public class VLCJSinglePlayer implements Player {
 	@Override
 	public void play() {
 		playing = true;
+		trackChanged.run();
 		players.get(position).play();
 	}
 
@@ -56,18 +58,20 @@ public class VLCJSinglePlayer implements Player {
 	public void next() {
 		playing = true;
 		Helper.check(position < players.size(), "End of players reached!");
-		players.get(position).stop();
 		position++;
+		trackChanged.run();
 		players.get(position).play();
+		players.get(position - 1).stop();
 	}
 
 	@Override
 	public void previous() {
 		playing = true;
 		Helper.check(position > 0, "End of players reached!");
-		players.get(position).stop();
 		position--;
+		trackChanged.run();
 		players.get(position).play();
+		players.get(position + 1).stop();
 	}
 
 	@Override
@@ -118,8 +122,7 @@ public class VLCJSinglePlayer implements Player {
 
 	@Override
 	public void setUpdateMediaAction(Runnable r) {
-		// TODO Auto-generated method stub
-
+		trackChanged = r;
 	}
 
 	@Override
