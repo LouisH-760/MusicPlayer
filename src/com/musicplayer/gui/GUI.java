@@ -19,14 +19,14 @@ public interface GUI {
 	public boolean isStringTooWide(String str);
 	// these are used to bind the GUI with the Player
 	// This way, the GUI and the Player are completely agnostic from one another
-	// set what runs when the "next" button is clicked
+	// set what runs when the "next" action is triggered
 	public void setNextAction(Runnable r);
-	// set what runs when the "previous" button is clicked
+	// set what runs when the "previous" action is triggered
 	public void setPreviousAction(Runnable r);
-	// set what runs when the "play/pause" button is clicked
+	// set what runs when the "play/pause" action is triggered
 	public void setPauseAction(Runnable r);
-	// set what runs when the "volume up" button is clicked
+	// set what runs when the "volume up" action is triggered
 	public void setVUpAction(Runnable r);
-	// set what runs when the "volume down" button is clicked
+	// set what runs when the "volume down" action is triggered
 	public void setVDownAction(Runnable r);
 }
