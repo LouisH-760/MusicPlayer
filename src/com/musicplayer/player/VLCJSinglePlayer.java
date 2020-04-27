@@ -11,7 +11,8 @@ public class VLCJSinglePlayer implements Player {
 	public final int MIN_VOLUME = 0;
 	
 	private final Runnable finishedAction;
-	private  Runnable trackChanged;
+	private Runnable positionUpdatedAction;
+	private Runnable trackChanged;
 	
 	private List<VLCJSingleTrackPlayer> players;
 	private int position;
@@ -30,7 +31,7 @@ public class VLCJSinglePlayer implements Player {
 	@Override
 	public void add(String song) {
 		players.add(new VLCJSingleTrackPlayer(song));
-		updateAction();
+		updateActions();
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class VLCJSinglePlayer implements Player {
 		for(String song : songs) {
 			players.add(new VLCJSingleTrackPlayer(song));
 		}
-		updateAction();
+		updateActions();
 	}
 
 	@Override
@@ -145,10 +146,19 @@ public class VLCJSinglePlayer implements Player {
 		return volume;
 	}
 	
-	private void updateAction() {
+	private void updateActions() {
 		for(VLCJSingleTrackPlayer player : players) {
 			player.setFinishedAction(finishedAction);
+			player.setPositionUpdatedAction(positionUpdatedAction);
 		}
+	}
+	
+	public float getPosition() {
+		return players.get(position).getPosition();
+	}
+
+	public void setPositionUpdatedAction(Runnable r) {
+		positionUpdatedAction = r;
 	}
 
 }

@@ -11,8 +11,6 @@ import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
 public class VLCJSingleTrackPlayer {
-
-	private final float DELTA = 0.005f;
 	
 	private String artist;
 	private String album;
@@ -21,6 +19,7 @@ public class VLCJSingleTrackPlayer {
 	private AudioPlayerComponent mediaPlayerComponent;
 	private Media song;
 	private Runnable finishedAction;
+	private Runnable positionUpdatedAction;
 	
 	public VLCJSingleTrackPlayer(String path) {
 		mediaPlayerComponent = new AudioPlayerComponent();
@@ -54,8 +53,8 @@ public class VLCJSingleTrackPlayer {
 		    
 		    @Override
 		    public void positionChanged(MediaPlayer mediaPlayer, float newPosition) {
-		    	if(newPosition > (1f - DELTA)) {
-		    		finishedAction.run();
+		    	if(positionUpdatedAction != null) {
+		    		positionUpdatedAction.run();
 		    	}
 		    }
 		});
@@ -105,5 +104,9 @@ public class VLCJSingleTrackPlayer {
 	
 	public float getPosition() {
 		return mediaPlayerComponent.mediaPlayer().status().position();
+	}
+	
+	public void setPositionUpdatedAction(Runnable r) {
+		positionUpdatedAction = r;
 	}
 }
