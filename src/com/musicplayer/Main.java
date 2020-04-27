@@ -13,7 +13,13 @@ public class Main {
 	private static Logic logic;
 	
 	public static void main(String[] args) throws InterruptedException {
-		logic = new SingleAlbumLogic(args);
-		logic.start();
+		try {
+			logic = new SingleAlbumLogic(args);
+			logic.start();
+		}
+		catch (Exception e) {
+			System.err.println(e.toString());
+		}
+		
 	}
 }
