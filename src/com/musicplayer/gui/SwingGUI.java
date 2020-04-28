@@ -35,7 +35,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	private ShortcutBinding sb;
 
 	private final int WIDTH = 275;
-	private final int HEIGHT = WIDTH + 75;
+	private final int HEIGHT = WIDTH + 105;
 	
 	/**
 	 * Initialize the window
