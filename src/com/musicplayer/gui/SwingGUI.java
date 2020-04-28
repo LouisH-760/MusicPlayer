@@ -35,6 +35,8 @@ public class SwingGUI  extends JFrame implements GUI{
 	private Seekbar seekbar;
 	
 	private ShortcutBinding sb;
+	
+	private Runnable gainedFocusAction;
 
 	private final int WIDTH = 275;
 	private final int HEIGHT = WIDTH + 105;
@@ -102,8 +104,9 @@ public class SwingGUI  extends JFrame implements GUI{
 
 			@Override
 			public void windowLostFocus(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				if (gainedFocusAction != null) {
+					gainedFocusAction.run();
+				}
 			}
 			
 		});
@@ -229,6 +232,11 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public float getSeekPosition() {
 		return seekbar.getNewPosition();
+	}
+
+	@Override
+	public void setGainedFocusAction(Runnable r) {
+		gainedFocusAction = r;
 	}
 
 }
