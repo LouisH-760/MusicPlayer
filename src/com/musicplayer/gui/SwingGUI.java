@@ -64,6 +64,7 @@ public class SwingGUI  extends JFrame implements GUI{
 		previous.setFocusable(false);
 		vUp.setFocusable(false);
 		vDown.setFocusable(false);
+		seekbar.setFocusable(false);
 		
 		setFocusable(true);
 		setTitle(title);
