@@ -17,7 +17,6 @@ public class VLCJSingleTrackPlayer {
 	private String title;
 	private boolean ready;
 	private AudioPlayerComponent mediaPlayerComponent;
-	private Media song;
 	private Runnable finishedAction;
 	private Runnable positionUpdatedAction;
 	
@@ -39,7 +38,7 @@ public class VLCJSingleTrackPlayer {
 					 album = media.meta().get(Meta.ALBUM);
 					 title = media.meta().get(Meta.TITLE);
 					 ready = true;
-					 song = media;
+					 media.release();
 				 }					 
 			 }
 		});
@@ -70,8 +69,7 @@ public class VLCJSingleTrackPlayer {
 	 */
 	public void play() {
 		Helper.check(ready, "Song is not ready yet!");
-		mediaPlayerComponent.mediaPlayer().media().play(song.newMediaRef());
-		song.release();
+		mediaPlayerComponent.mediaPlayer().controls().play();
 	}
 	
 	/**
@@ -92,9 +90,6 @@ public class VLCJSingleTrackPlayer {
 	 * free all the ressources
 	 */
 	public void release() {
-		if(song != null) {
-			song.release();
-		}
 		mediaPlayerComponent.release();
 	}
 	

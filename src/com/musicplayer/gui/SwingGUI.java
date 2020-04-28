@@ -23,12 +23,14 @@ public class SwingGUI  extends JFrame implements GUI{
 	private JPanel container;
 	private JPanel navigation;
 	private JPanel trackInfo;
+	private JPanel controls;
 	private Button next;
 	private Button pause;
 	private Button previous;
 	private Button vUp;
 	private Button vDown;
 	private JLabel trackLabel;
+	private Seekbar seekbar;
 	
 	private ShortcutBinding sb;
 
@@ -47,7 +49,9 @@ public class SwingGUI  extends JFrame implements GUI{
 		vUp = new Button("🔊");
 		vDown = new Button("🔉");
 		container = (JPanel) getContentPane();//No need to build a new JPanel
+		seekbar = new Seekbar();
 		navigation = new JPanel();
+		controls = new JPanel();
 		trackLabel = new JLabel("Empty");
 		panel = new GUISwingPanel();
 		trackInfo = new JPanel();
@@ -70,15 +74,18 @@ public class SwingGUI  extends JFrame implements GUI{
 		
 		container.setLayout(new BorderLayout());
 		container.add(panel, BorderLayout.CENTER);
+		controls.setLayout(new BorderLayout());
 		navigation.setLayout(new FlowLayout());
 		navigation.add(vDown);
 		navigation.add(previous);
 		navigation.add(pause);
 		navigation.add(next);
 		navigation.add(vUp);
+		controls.add(navigation, BorderLayout.CENTER);
+		controls.add(seekbar, BorderLayout.NORTH);
 		trackInfo.add(trackLabel);
 		container.add(trackInfo, BorderLayout.NORTH);
-		container.add(navigation, BorderLayout.SOUTH);
+		container.add(controls, BorderLayout.SOUTH);
 		
 	}
 	
@@ -170,6 +177,38 @@ public class SwingGUI  extends JFrame implements GUI{
 	public void setVDownAction(Runnable r) {
 		vDown.setClicked(r);
 		sb.addBind(KeyEvent.VK_DOWN, 0, r);
+	}
+
+	@Override
+	/**
+	 * Set the displayed position of the seekbar
+	 */
+	public void setSeekbarPosition(float position) {
+		seekbar.setPosition(position);
+	}
+
+	@Override
+	/**
+	 * get the displayed position of the seekbar
+	 */
+	public float getSeekbarPosition() {
+		return seekbar.getPosition();
+	}
+
+	@Override
+	/**
+	 * set what happens when the seekbar is moved
+	 */
+	public void setSeekbarMovedAction(Runnable r) {
+		seekbar.setPositionChanged(r);
+	}
+
+	@Override
+	/**
+	 * get the seeking position
+	 */
+	public float getSeekPosition() {
+		return seekbar.getNewPosition();
 	}
 
 }

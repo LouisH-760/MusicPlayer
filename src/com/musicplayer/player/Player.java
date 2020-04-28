@@ -51,4 +51,10 @@ public interface Player {
 	public String nowPlayingAlbum();
 	// get the current volume
 	public int getVolume();
+	// set what happens when the playback position is updated.
+	public void setPositionUpdatedAction(Runnable r);
+	// set the playback position
+	public void setPosition(float position);
+	// get the playback position
+	public float getPosition();
 }
