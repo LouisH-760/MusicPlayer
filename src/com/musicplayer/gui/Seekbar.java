@@ -4,6 +4,11 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * Seekbar component for the Swing GUI
+ * @author louis Hermier
+ *
+ */
 public class Seekbar extends JSlider{
 	private static final long serialVersionUID = 5L;
 	private final int MAX = 100000;
@@ -35,6 +40,10 @@ public class Seekbar extends JSlider{
 		});
 	}
 	
+	/**
+	 * Set the displayed seekbar's position
+	 * @param position > float between 0 (beginning) and 1 (end)
+	 */
 	public void setPosition(float position) {
 		int redonePosition = (int)(position * MAX);
 		if(!adjusted) {
@@ -42,14 +51,26 @@ public class Seekbar extends JSlider{
 		}
 	}
 	
+	/**
+	 * get the sekbar's position
+	 * @return position > float between 0 (beginning) and 1 (end)
+	 */
 	public float getPosition() {
 		return (float)getPosition() / (float)MAX;
 	}
 	
+	/**
+	 * get the seeked position
+	 * @return position > float between 0 (beginning) and 1 (end)
+	 */
 	public float getNewPosition() {
 		return newPos / (float)MAX;
 	}
 	
+	/**
+	 * Set what happens when the user changes the position
+	 * @param r
+	 */
 	public void setPositionChanged(Runnable r) {
 		positionChangedAction = r;
 	}
