@@ -15,7 +15,10 @@ public class VLCJSinglePlayer implements Player {
 	// this is also shorter than a get-method
 	public final int MAX_VOLUME = 100;
 	public final int MIN_VOLUME = 0;
+	private final int PREVIOUS = -1;
+	private final int NEXT = 1;
 	private final int TIMEOUT = 500;
+	private final int CACHED_TRACKS = 3;
 	public final String BOUNDARY_REACHED = "Playlist boundary reached.";
 	
 	// action to run when a track finishes
@@ -38,6 +41,9 @@ public class VLCJSinglePlayer implements Player {
 	public VLCJSinglePlayer() {
 		players = new ArrayList<VLCJSingleTrackPlayer>();
 		playlist = new ArrayList<String>();
+		for(int i = 0; i < CACHED_TRACKS; i++) {
+			players.add(null);
+		}
 		position = 0;
 		volumeIncr = 5;
 		playing = false;
@@ -51,8 +57,10 @@ public class VLCJSinglePlayer implements Player {
 	 * @param song > path to the song
 	 */
 	public void add(String song) {
-		players.add(new VLCJSingleTrackPlayer(song));
-		updateActions();
+		//players.add(new VLCJSingleTrackPlayer(song));
+		//updateActions();
+		playlist.add(song);
+		createPlayers();
 	}
 
 	@Override
@@ -65,6 +73,7 @@ public class VLCJSinglePlayer implements Player {
 			//players.add(new VLCJSingleTrackPlayer(song));
 			playlist.add(song);
 		}
+		createPlayers();
 		//updateActions();
 	}
 
@@ -76,7 +85,7 @@ public class VLCJSinglePlayer implements Player {
 		playing = true;
 		trackChanged.run();
 		try {
-			players.get(position).play();
+			players.get(1).play();
 		} catch (IllegalArgumentException e) {
 			System.out.println("Track not ready yet, Waiting.");
 			try {
@@ -95,7 +104,7 @@ public class VLCJSinglePlayer implements Player {
 	 */
 	public void pause() {
 		playing = false;
-		players.get(position).pause();
+		players.get(0).pause();
 	}
 
 	@Override
@@ -107,9 +116,10 @@ public class VLCJSinglePlayer implements Player {
 		{
 			playing = true;
 			position++;
+			players.get(2).play();
+			players.get(1).stop();
 			trackChanged.run();
-			players.get(position).play();
-			players.get(position - 1).stop();
+			shove(NEXT);
 		} else {
 			System.out.println(BOUNDARY_REACHED);
 		}
@@ -123,9 +133,10 @@ public class VLCJSinglePlayer implements Player {
 		if (position > 0) {
 			playing = true;
 			position--;
+			players.get(0).play();
+			players.get(1).stop();
 			trackChanged.run();
-			players.get(position).play();
-			players.get(position + 1).stop();
+			shove(PREVIOUS);
 		} else {
 			System.out.println(BOUNDARY_REACHED);
 		}
@@ -136,7 +147,7 @@ public class VLCJSinglePlayer implements Player {
 	 * Stop playback completely and free ressources
 	 */
 	public void stop() {
-		players.get(position).stop();
+		players.get(1).stop();
 		for(VLCJSingleTrackPlayer player : players) {
 			player.release();
 		}
@@ -150,7 +161,7 @@ public class VLCJSinglePlayer implements Player {
 		Helper.check(volume <= MAX_VOLUME, "You cannot set the volume this high");
 		Helper.check(volume >= MIN_VOLUME, "You cannot set the volume this low");
 		for(VLCJSingleTrackPlayer player : players) {
-			player.setVolume(volume);;
+			player.setVolume(volume);
 		}
 		this.volume = volume;
 	}
@@ -211,7 +222,7 @@ public class VLCJSinglePlayer implements Player {
 	 * get the title of the now playing media
 	 */
 	public String nowPlayingTitle() {
-		return players.get(position).getTitle();
+		return players.get(1).getTitle();
 	}
 
 	@Override
@@ -219,7 +230,7 @@ public class VLCJSinglePlayer implements Player {
 	 * get the artist of the now playing media
 	 */
 	public String nowPlayingArtist() {
-		return players.get(position).getArtist();
+		return players.get(1).getArtist();
 	}
 
 	@Override
@@ -227,7 +238,7 @@ public class VLCJSinglePlayer implements Player {
 	 * get the album of the now playing media
 	 */
 	public String nowPlayingAlbum() {
-		return players.get(position).getAlbum();
+		return players.get(1).getAlbum();
 	}
 
 	@Override
@@ -243,7 +254,7 @@ public class VLCJSinglePlayer implements Player {
 	 * @return position: float between 0 (beginning) and 1 (end)
 	 */
 	public float getPosition() {
-		return players.get(position).getPosition();
+		return players.get(1).getPosition();
 	}
 
 	/**
@@ -261,7 +272,7 @@ public class VLCJSinglePlayer implements Player {
 	public void setPosition(float position) {
 		Helper.check(position <= 1, "Position can't be higher than 1");
 		Helper.check(position >= 0, "Position can't be lower than 0");
-		players.get(this.position).setPosition(position);
+		players.get(1).setPosition(position);
 	}
 
 	@Override
@@ -269,7 +280,7 @@ public class VLCJSinglePlayer implements Player {
 	 * get the duration of the currently playing track
 	 */
 	public long getDuration() {
-		return players.get(position).getDuration();
+		return players.get(1).getDuration();
 	}
 
 	/**
@@ -277,23 +288,58 @@ public class VLCJSinglePlayer implements Player {
 	 */
 	private void updateActions() {
 		for(VLCJSingleTrackPlayer player : players) {
-			player.setFinishedAction(finishedAction);
-			player.setPositionUpdatedAction(positionUpdatedAction);
+			if(player != null) {
+				player.setFinishedAction(finishedAction);
+				player.setPositionUpdatedAction(positionUpdatedAction);
+			}
 		}
 	}
 	
 	private void updateVolume() {
 		for(VLCJSingleTrackPlayer player : players) {
-			player.setVolume(volume);
+			if(player != null)
+				player.setVolume(volume);
 		}
 	}
 	
 	private void createPlayers() {
+		if(position > 0) {
+			players.set(0, new VLCJSingleTrackPlayer(playlist.get(position - 1)));
+		}
+		players.set(1, new VLCJSingleTrackPlayer(playlist.get(position)));
+		if(position < playlist.size() - 1) {
+			players.set(2, new VLCJSingleTrackPlayer(playlist.get(position + 1)));
+		}
 		updateActions();
 		updateVolume();
 	}
 	
 	private void shove(int direction) {
+		if(direction == PREVIOUS) {
+			if(players.get(2) != null) {
+				players.get(2).release();
+			}
+			players.set(2, players.get(1));
+			players.set(1, players.get(0));
+			if(position > 0) {
+				players.set(0, new VLCJSingleTrackPlayer(playlist.get(position - 1)));
+			} else {
+				players.set(0, null);
+			}
+		} else if (direction == NEXT) {
+			if(players.get(0) != null) {
+				players.get(0).release();
+			}
+			players.set(0, players.get(1));
+			players.set(1, players.get(2));
+			if(position < playlist.size() - 1) {
+				players.set(2, new VLCJSingleTrackPlayer(playlist.get(position + 1)));
+			} else {
+				players.set(2, null);
+			}
+		} else {
+			System.out.println(String.format("Unknown direction: %s", direction));
+		}
 		updateActions();
 		updateVolume();
 	}
