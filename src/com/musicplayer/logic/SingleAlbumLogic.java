@@ -16,7 +16,18 @@ import com.musicplayer.scanner.Scanner;
  *
  */
 public class SingleAlbumLogic implements Logic {
+	private final Runnable updateTitleLabel = () -> {
+		String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); // test label to check for
+		// width
+		if (!gui.isStringTooWide(withArtist)) // if it is narrow enough to fit on the screen
+			gui.setTrackLabel(withArtist); // display title and artist (artist - title)
+		else
+			gui.setTrackLabel(player.nowPlayingTitle()); // else, only display the title
 
+		gui.setWindowName(player.nowPlayingAlbum()); 	// since we extracted metadata from the song, get album name
+														// from here
+														// allows / , trailing ., ....
+};
 	private static Player player;
 	private static final String DEFAULT_ART = "default.png";
 	private static Scanner scanner;
@@ -84,18 +95,8 @@ public class SingleAlbumLogic implements Logic {
 			player.volumeDown();
 		});
 		gui.setTrackLabel(scanner.getAlbumName());
-		player.setUpdateMediaAction(() -> {
-				String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); // test label to check for
-																									// width
-				if (!gui.isStringTooWide(withArtist)) // if it is narrow enough to fit on the screen
-					gui.setTrackLabel(withArtist); // display title and artist (artist - title)
-				else
-					gui.setTrackLabel(player.nowPlayingTitle()); // else, only display the title
-	
-				gui.setWindowName(player.nowPlayingAlbum()); // since we extracted metadata from the song, get album name
-																// from here
-				// allows / , trailing ., ....
-			});
+		player.setUpdateMediaAction(updateTitleLabel);
+		gui.setGainedFocusAction(updateTitleLabel);
 		player.setPositionUpdatedAction(() -> gui.setSeekbarPosition(player.getPosition()));
 		gui.setSeekbarMovedAction(() -> player.setPosition(gui.getSeekPosition()));
 		// add all the songs we found to the playback
