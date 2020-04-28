@@ -272,6 +272,9 @@ public class VLCJSinglePlayer implements Player {
 	}
 
 	@Override
+	/**
+	 * get the duration of the current track (long, in milliseconds)
+	 */
 	public long getDuration() {
 		return players.get(position).getDuration();
 	}
