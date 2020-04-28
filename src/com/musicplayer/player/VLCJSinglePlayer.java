@@ -99,12 +99,16 @@ public class VLCJSinglePlayer implements Player {
 	 * skip to the next track
 	 */
 	public void next() {
-		playing = true;
-		Helper.check(position < players.size(), "End of players reached!");
-		position++;
-		trackChanged.run();
-		players.get(position).play();
-		players.get(position - 1).stop();
+		if (position < players.size())
+		{
+			playing = true;
+			position++;
+			trackChanged.run();
+			players.get(position).play();
+			players.get(position - 1).stop();
+		} else {
+			System.out.println("Playlist boundary reached.");
+		}
 	}
 
 	@Override
@@ -112,12 +116,15 @@ public class VLCJSinglePlayer implements Player {
 	 * skip to the previous track
 	 */
 	public void previous() {
-		playing = true;
-		Helper.check(position > 0, "End of players reached!");
-		position--;
-		trackChanged.run();
-		players.get(position).play();
-		players.get(position + 1).stop();
+		if (position > 0) {
+			playing = true;
+			position--;
+			trackChanged.run();
+			players.get(position).play();
+			players.get(position + 1).stop();
+		} else {
+			System.out.println("Playlist boundary reached.");
+		}
 	}
 
 	@Override
