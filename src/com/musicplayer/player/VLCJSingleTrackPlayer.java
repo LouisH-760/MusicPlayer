@@ -139,7 +139,7 @@ public class VLCJSingleTrackPlayer {
 	 * @return duration (long, in milliseconds)
 	 */
 	public long getDuration() {
-		return mediaPlayerComponent.mediaPlayer().status().length();
+		return mediaPlayerComponent.mediaPlayer().media().info().duration();
 	}
 	
 	/**

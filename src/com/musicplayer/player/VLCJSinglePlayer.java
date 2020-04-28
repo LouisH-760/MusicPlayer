@@ -263,4 +263,9 @@ public class VLCJSinglePlayer implements Player {
 		players.get(this.position).setPosition(position);
 	}
 
+	@Override
+	public long getDuration() {
+		return players.get(position).getDuration();
+	}
+
 }

@@ -244,5 +244,11 @@ public class VLCJListPlayer implements Player{
 		// this cannot be implemented due to the limitations of this player
 		return 0;
 	}
+
+	@Override
+	public long getDuration() {
+		// this cannot be implemented due to the limitations of this player
+		return 0;
+	}
 	
 }

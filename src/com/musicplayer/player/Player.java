@@ -57,4 +57,6 @@ public interface Player {
 	public void setPosition(float position);
 	// get the playback position
 	public float getPosition();
+	// get the track duration (long, in milliseconds)
+	public long getDuration();
 }
