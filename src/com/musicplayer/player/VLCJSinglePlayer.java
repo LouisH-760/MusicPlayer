@@ -26,6 +26,7 @@ public class VLCJSinglePlayer implements Player {
 	private Runnable trackChanged;
 	
 	private List<VLCJSingleTrackPlayer> players;
+	private List<String> playlist;
 	private int position;
 	private int volumeIncr;
 	private boolean playing;
@@ -36,6 +37,7 @@ public class VLCJSinglePlayer implements Player {
 	 */
 	public VLCJSinglePlayer() {
 		players = new ArrayList<VLCJSingleTrackPlayer>();
+		playlist = new ArrayList<String>();
 		position = 0;
 		volumeIncr = 5;
 		playing = false;
