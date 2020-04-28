@@ -83,7 +83,6 @@ public class VLCJSinglePlayer implements Player {
 	 */
 	public void play() {
 		playing = true;
-		trackChanged.run();
 		try {
 			players.get(1).play();
 		} catch (IllegalArgumentException e) {
@@ -95,7 +94,7 @@ public class VLCJSinglePlayer implements Player {
 			}
 			play();
 		}
-		
+		trackChanged.run();
 	}
 
 	@Override
@@ -104,7 +103,7 @@ public class VLCJSinglePlayer implements Player {
 	 */
 	public void pause() {
 		playing = false;
-		players.get(0).pause();
+		players.get(1).pause();
 	}
 
 	@Override
@@ -118,8 +117,8 @@ public class VLCJSinglePlayer implements Player {
 			position++;
 			players.get(2).play();
 			players.get(1).stop();
-			trackChanged.run();
 			shove(NEXT);
+			trackChanged.run();
 		} else {
 			System.out.println(BOUNDARY_REACHED);
 		}
@@ -135,8 +134,8 @@ public class VLCJSinglePlayer implements Player {
 			position--;
 			players.get(0).play();
 			players.get(1).stop();
-			trackChanged.run();
 			shove(PREVIOUS);
+			trackChanged.run();
 		} else {
 			System.out.println(BOUNDARY_REACHED);
 		}
@@ -149,7 +148,9 @@ public class VLCJSinglePlayer implements Player {
 	public void stop() {
 		players.get(1).stop();
 		for(VLCJSingleTrackPlayer player : players) {
-			player.release();
+			if(player != null) {
+				player.release();
+			}
 		}
 	}
 
@@ -161,7 +162,10 @@ public class VLCJSinglePlayer implements Player {
 		Helper.check(volume <= MAX_VOLUME, "You cannot set the volume this high");
 		Helper.check(volume >= MIN_VOLUME, "You cannot set the volume this low");
 		for(VLCJSingleTrackPlayer player : players) {
-			player.setVolume(volume);
+			if(player != null) {
+				player.setVolume(volume);
+			}
+			
 		}
 		this.volume = volume;
 	}
@@ -315,16 +319,19 @@ public class VLCJSinglePlayer implements Player {
 	}
 	
 	private void shove(int direction) {
+		System.out.println("------");
+		for(VLCJSingleTrackPlayer player : players) {
+			System.out.println(player);
+		}
 		if(direction == PREVIOUS) {
-			if(players.get(2) != null) {
-				players.get(2).release();
+			for(VLCJSingleTrackPlayer player: players) {
+				if(player != null)
+						player.release();
 			}
-			players.set(2, players.get(1));
-			players.set(1, players.get(0));
 			if(position > 0) {
 				players.set(0, new VLCJSingleTrackPlayer(playlist.get(position - 1)));
 			} else {
-				players.set(0, null);
+				
 			}
 		} else if (direction == NEXT) {
 			if(players.get(0) != null) {
@@ -342,5 +349,13 @@ public class VLCJSinglePlayer implements Player {
 		}
 		updateActions();
 		updateVolume();
+		System.out.println("------");
+		for(VLCJSingleTrackPlayer player : players) {
+			System.out.println(player);
+		}
+		System.out.println("------");
+		for(String song : playlist) {
+			System.out.println(song);
+		}
 	}
 }
