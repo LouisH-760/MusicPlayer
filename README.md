@@ -17,3 +17,6 @@
 ### Current Swing GUI
 The player alone:  
 ![Player](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/player.png)
+
+The player and it's associated terminal in a full desktop
+![player and console](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/fullscreen.png)
