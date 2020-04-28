@@ -25,6 +25,7 @@ public class GUISwingPanel extends JPanel {
 	 * Rendering part
 	 */
 	public void paintComponent(Graphics g) {
+		g.clearRect(0, 0, getWidth(), getHeight());
 		Graphics2D g2d = (Graphics2D) g;
 		// rendering hints: antialiasing on, bicubic interpolation for images
 		// doesn't seem to really help?

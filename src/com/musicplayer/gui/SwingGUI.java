@@ -1,6 +1,7 @@
 package com.musicplayer.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 
@@ -64,6 +65,7 @@ public class SwingGUI  extends JFrame implements GUI{
 		setFocusable(true);
 		setTitle(title);
 		setSize(WIDTH, HEIGHT);
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -79,7 +81,8 @@ public class SwingGUI  extends JFrame implements GUI{
 		trackInfo.add(trackLabel);
 		container.add(trackInfo, BorderLayout.NORTH);
 		container.add(navigation, BorderLayout.SOUTH);
-		
+
+		pack();
 	}
 	
 	/**
