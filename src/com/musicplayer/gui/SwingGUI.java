@@ -3,6 +3,8 @@ package com.musicplayer.gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,6 +35,8 @@ public class SwingGUI  extends JFrame implements GUI{
 	private Seekbar seekbar;
 	
 	private ShortcutBinding sb;
+	
+	private Runnable gainedFocusAction;
 
 	private final int WIDTH = 275;
 	private final int HEIGHT = WIDTH + 105;
@@ -88,6 +92,23 @@ public class SwingGUI  extends JFrame implements GUI{
 		container.add(trackInfo, BorderLayout.NORTH);
 		container.add(controls, BorderLayout.SOUTH);
 		
+		// add event listener for when the window loses or regains focus
+		// here, only the regains focus interests us.
+		this.addWindowFocusListener(new WindowFocusListener() {
+
+			@Override
+			public void windowGainedFocus(WindowEvent arg0) {
+				if (gainedFocusAction != null) {
+					new Thread(gainedFocusAction).start();
+				}
+			}
+
+			@Override
+			public void windowLostFocus(WindowEvent arg0) {
+				// this one doesn't matter to us.
+			}
+			
+		});
 	}
 	
 	/**
@@ -210,6 +231,14 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public float getSeekPosition() {
 		return seekbar.getNewPosition();
+	}
+
+	@Override
+	/**
+	 * set what happens when the window regains focus
+	 */
+	public void setGainedFocusAction(Runnable r) {
+		gainedFocusAction = r;
 	}
 
 }
