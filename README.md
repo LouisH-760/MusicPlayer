@@ -16,4 +16,4 @@
 ## Screenshots
 ### Current Swing GUI
 The player alone:  
-![Player](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/Player.png)
+![Player](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/player.png)
