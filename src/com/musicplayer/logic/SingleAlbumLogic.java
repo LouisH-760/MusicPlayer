@@ -17,8 +17,9 @@ import com.musicplayer.scanner.Scanner;
  */
 public class SingleAlbumLogic implements Logic {
 	private final Runnable updateTitleLabel = () -> {
-		String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); // test label to check for
-		// width
+		gui.setTrackLabel("Whiteout");
+		String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); 	// test label to check for
+																							// width
 		if (!gui.isStringTooWide(withArtist)) // if it is narrow enough to fit on the screen
 			gui.setTrackLabel(withArtist); // display title and artist (artist - title)
 		else
@@ -27,7 +28,7 @@ public class SingleAlbumLogic implements Logic {
 		gui.setWindowName(player.nowPlayingAlbum()); 	// since we extracted metadata from the song, get album name
 														// from here
 														// allows / , trailing ., ....
-};
+	};
 	private static Player player;
 	private static final String DEFAULT_ART = "default.png";
 	private static Scanner scanner;

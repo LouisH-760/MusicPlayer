@@ -98,15 +98,14 @@ public class SwingGUI  extends JFrame implements GUI{
 
 			@Override
 			public void windowGainedFocus(WindowEvent arg0) {
-				// this one doesn't matter to us, leaving a message for debugging purposes
-				System.out.println("Lost focus");
+				if (gainedFocusAction != null) {
+					new Thread(gainedFocusAction).start();
+				}
 			}
 
 			@Override
 			public void windowLostFocus(WindowEvent arg0) {
-				if (gainedFocusAction != null) {
-					gainedFocusAction.run();
-				}
+				// this one doesn't matter to us.
 			}
 			
 		});
