@@ -8,7 +8,7 @@ import com.musicplayer.misc.Helper;
 /**
  * Implements the player interface by using a player per track instead
  * @author louis Hermier
- *
+ * 
  */
 public class VLCJSinglePlayer implements Player {
 	// volume is public in case the logic needs to access it.
