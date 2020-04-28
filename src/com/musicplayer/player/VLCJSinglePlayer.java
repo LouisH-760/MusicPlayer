@@ -15,6 +15,7 @@ public class VLCJSinglePlayer implements Player {
 	// this is also shorter than a get-method
 	public final int MAX_VOLUME = 100;
 	public final int MIN_VOLUME = 0;
+	private final int TIMEOUT = 500;
 	
 	// action to run when a track finishes
 	private final Runnable finishedAction;
@@ -70,7 +71,18 @@ public class VLCJSinglePlayer implements Player {
 	public void play() {
 		playing = true;
 		trackChanged.run();
-		players.get(position).play();
+		try {
+			players.get(position).play();
+		} catch (IllegalArgumentException e) {
+			System.out.println("Track not ready yet, Waiting.");
+			try {
+				Thread.sleep(TIMEOUT);
+			} catch (InterruptedException e1) {
+				System.out.println("Interrupted");
+			}
+			play();
+		}
+		
 	}
 
 	@Override
