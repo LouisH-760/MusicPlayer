@@ -179,4 +179,9 @@ public class SwingGUI  extends JFrame implements GUI{
 		sb.addBind(KeyEvent.VK_DOWN, 0, r);
 	}
 
+	@Override
+	public void setSeekbarPosition(float position) {
+		seekbar.setPosition(position);
+	}
+
 }

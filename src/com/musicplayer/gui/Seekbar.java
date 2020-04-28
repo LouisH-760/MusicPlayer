@@ -15,7 +15,7 @@ public class Seekbar extends JSlider{
 	}
 	
 	public void setPosition(float position) {
-		int redonePosition = (int)(position * 10000);
+		int redonePosition = (int)(position * MAX);
 		setValue(redonePosition);
 	}
 }

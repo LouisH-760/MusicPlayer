@@ -29,4 +29,6 @@ public interface GUI {
 	public void setVUpAction(Runnable r);
 	// set what runs when the "volume down" action is triggered
 	public void setVDownAction(Runnable r);
+	// set the seekbar position
+	public void setSeekbarPosition(float position);
 }
