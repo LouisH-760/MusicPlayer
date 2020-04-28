@@ -37,4 +37,7 @@ public interface GUI {
 	public void setSeekbarMovedAction(Runnable r);
 	// get the seeking position
 	public float getSeekPosition();
+	// set what to run when the window regains focus
+	// useful to update a label that only gets updated once per song, for example
+	public void setGainedFocusAction(Runnable r);
 }
