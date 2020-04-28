@@ -33,7 +33,7 @@ public class VLCJSinglePlayer implements Player {
 	private int volume;
 	
 	/**
-	 * constructor: instanciate the player
+	 * constructor: instantiate the player
 	 */
 	public VLCJSinglePlayer() {
 		players = new ArrayList<VLCJSingleTrackPlayer>();
