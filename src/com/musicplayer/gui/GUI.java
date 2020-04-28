@@ -35,4 +35,6 @@ public interface GUI {
 	public float getSeekbarPosition();
 	// what happens when the seekbar is moved by the user
 	public void setSeekbarMovedAction(Runnable r);
+	// get the seeking position
+	public float getSeekPosition();
 }

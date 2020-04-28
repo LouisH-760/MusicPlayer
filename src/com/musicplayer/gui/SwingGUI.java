@@ -194,4 +194,9 @@ public class SwingGUI  extends JFrame implements GUI{
 		seekbar.setPositionChanged(r);
 	}
 
+	@Override
+	public float getSeekPosition() {
+		return seekbar.getNewPosition();
+	}
+
 }
