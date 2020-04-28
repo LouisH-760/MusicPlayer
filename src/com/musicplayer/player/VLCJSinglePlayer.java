@@ -175,7 +175,7 @@ public class VLCJSinglePlayer implements Player {
 	 */
 	public void volumeUp() {
 		if(volume <= MAX_VOLUME - volumeIncr)
-			setVolume(volume - volumeIncr);
+			setVolume(volume + volumeIncr);
 	}
 
 	@Override
