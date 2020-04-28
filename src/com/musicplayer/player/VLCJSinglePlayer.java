@@ -99,7 +99,7 @@ public class VLCJSinglePlayer implements Player {
 	 * skip to the next track
 	 */
 	public void next() {
-		if (position < players.size())
+		if (position < players.size() - 1)
 		{
 			playing = true;
 			position++;
