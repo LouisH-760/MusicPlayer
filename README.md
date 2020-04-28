@@ -12,3 +12,8 @@
 - Play / Pause: `SPACE` (spacebar)
 - Volume **Up**: `UP` (up arrow)
 - Volume **Down**: `DOWN` (down arrow)
+
+## Screenshots
+### Current Swing GUI
+The player alone:  
+![Player](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/Player.png)
