@@ -235,6 +235,9 @@ public class SwingGUI  extends JFrame implements GUI{
 	}
 
 	@Override
+	/**
+	 * set what happens when the window regains focus
+	 */
 	public void setGainedFocusAction(Runnable r) {
 		gainedFocusAction = r;
 	}
