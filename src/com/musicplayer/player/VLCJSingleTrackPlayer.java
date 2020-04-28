@@ -23,6 +23,7 @@ public class VLCJSingleTrackPlayer {
 	/**
 	 * create a new instance of a player that will only play a single track
 	 * @param path > path to the media
+	 * 
 	 */
 	public VLCJSingleTrackPlayer(String path) {
 		mediaPlayerComponent = new AudioPlayerComponent();
@@ -46,12 +47,12 @@ public class VLCJSingleTrackPlayer {
 		mediaPlayerComponent.mediaPlayer().events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
 		    @Override
 		    public void finished(MediaPlayer mediaPlayer) {
-		        finishedAction.run();
+		    	new Thread(finishedAction).start();
 		    }
 
 		    @Override
 		    public void error(MediaPlayer mediaPlayer) {
-		    	finishedAction.run();
+		    	new Thread(finishedAction).start();
 		    }
 		    
 		    @Override
