@@ -90,9 +90,6 @@ public class VLCJSingleTrackPlayer {
 	 * free all the ressources
 	 */
 	public void release() {
-		if(song != null) {
-			song.release();
-		}
 		mediaPlayerComponent.release();
 	}
 	
