@@ -62,9 +62,10 @@ public class VLCJSinglePlayer implements Player {
 	 */
 	public void addMultiple(List<String> songs) {
 		for(String song : songs) {
-			players.add(new VLCJSingleTrackPlayer(song));
+			//players.add(new VLCJSingleTrackPlayer(song));
+			playlist.add(song);
 		}
-		updateActions();
+		//updateActions();
 	}
 
 	@Override
@@ -238,16 +239,6 @@ public class VLCJSinglePlayer implements Player {
 	}
 	
 	/**
-	 * set the actions for newly added media
-	 */
-	private void updateActions() {
-		for(VLCJSingleTrackPlayer player : players) {
-			player.setFinishedAction(finishedAction);
-			player.setPositionUpdatedAction(positionUpdatedAction);
-		}
-	}
-	
-	/**
 	 * get the playback position
 	 * @return position: float between 0 (beginning) and 1 (end)
 	 */
@@ -274,8 +265,36 @@ public class VLCJSinglePlayer implements Player {
 	}
 
 	@Override
+	/**
+	 * get the duration of the currently playing track
+	 */
 	public long getDuration() {
 		return players.get(position).getDuration();
 	}
 
+	/**
+	 * set the actions for newly added media
+	 */
+	private void updateActions() {
+		for(VLCJSingleTrackPlayer player : players) {
+			player.setFinishedAction(finishedAction);
+			player.setPositionUpdatedAction(positionUpdatedAction);
+		}
+	}
+	
+	private void updateVolume() {
+		for(VLCJSingleTrackPlayer player : players) {
+			player.setVolume(volume);
+		}
+	}
+	
+	private void createPlayers() {
+		updateActions();
+		updateVolume();
+	}
+	
+	private void shove(int direction) {
+		updateActions();
+		updateVolume();
+	}
 }
