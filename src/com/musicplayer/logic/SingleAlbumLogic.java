@@ -97,6 +97,7 @@ public class SingleAlbumLogic implements Logic {
 				// allows / , trailing ., ....
 			});
 		player.setPositionUpdatedAction(() -> gui.setSeekbarPosition(player.getPosition()));
+		gui.setSeekbarMovedAction(() -> player.setPosition(gui.getSeekbarPosition()));
 		// add all the songs we found to the playback
 		player.addMultiple(songs);
 	}
