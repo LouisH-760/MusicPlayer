@@ -2,6 +2,7 @@ package com.musicplayer.gui.fantôme;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.Icon;
 
@@ -24,12 +25,12 @@ public class ButtonFantôme {
 	@Deprecated
 	private Color pressedBackgroungColor = Color.WHITE;
 
-	private Icon hoverIcon = null;
+	private Image hoverIcon = null;
 	/*
 	 * @Depredated Useless at the moment
 	 */
 	@Deprecated
-	private Icon pressedIcon = null;
+	private Image pressedIcon = null;
 
 	private boolean hover = false;
 	
@@ -70,7 +71,7 @@ public class ButtonFantôme {
 	 * @param pressedIcon currently useless
 	 */
 	public ButtonFantôme(int x, int y, int width, int height, Color hoverBackgroungColor,
-			Color pressedBackgroungColor, Icon hoverIcon, Icon pressedIcon) {
+			Color pressedBackgroungColor, Image hoverIcon, Image pressedIcon) {
 		this(x, y, width, height, hoverBackgroungColor, pressedBackgroungColor, hoverIcon, pressedIcon, null);
 	}
 	
@@ -86,7 +87,7 @@ public class ButtonFantôme {
 	 * @param action the action to do when button is called to resolve its action
 	 */
 	public ButtonFantôme(int x, int y, int width, int height, Color hoverBackgroungColor,
-			Color pressedBackgroungColor, Icon hoverIcon, Icon pressedIcon, Runnable action) {
+			Color pressedBackgroungColor, Image hoverIcon, Image pressedIcon, Runnable action) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -107,6 +108,9 @@ public class ButtonFantôme {
 		g.setColor(hoverBackgroungColor);
 		if (hover) {
 			g.fillRect(x, y, width + 1, height + 1);
+			if (hoverIcon != null) {
+				g.drawImage(hoverIcon, x + (width - hoverIcon.getWidth(null))/2, y + (height - hoverIcon.getHeight(null))/2, hoverIcon.getWidth(null), hoverIcon.getHeight(null), null);
+			}
 		}
 	}
 	
@@ -215,7 +219,7 @@ public class ButtonFantôme {
 	 * return the hover Icon of the button
 	 * @return Icon
 	 */
-	public Icon getHoverIcon() {
+	public Image getHoverIcon() {
 		return hoverIcon;
 	}
 
@@ -223,7 +227,7 @@ public class ButtonFantôme {
 	 * set icon used when the button is hover
 	 * @param hoverIcon
 	 */
-	public void setHoverIcon(Icon hoverIcon) {
+	public void setHoverIcon(Image hoverIcon) {
 		this.hoverIcon = hoverIcon;
 	}
 
@@ -232,7 +236,7 @@ public class ButtonFantôme {
 	 * @return Icon
 	 */
 	@Deprecated
-	public Icon getPressedIcon() {
+	public Image getPressedIcon() {
 		return pressedIcon;
 	}
 
@@ -241,7 +245,7 @@ public class ButtonFantôme {
 	 * @param pressedIcon
 	 */
 	@Deprecated
-	public void setPressedIcon(Icon pressedIcon) {
+	public void setPressedIcon(Image pressedIcon) {
 		this.pressedIcon = pressedIcon;
 	}
 

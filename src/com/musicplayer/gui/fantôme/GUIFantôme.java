@@ -3,8 +3,12 @@ package com.musicplayer.gui.fantôme;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -65,11 +69,15 @@ public class GUIFantôme extends JFrame implements GUI{
 		
 		//Temporary button sizes and color
 		Color color = new Color(0,0,0,190);
-		next = new ButtonFantôme(2*panel.getWidth()/3, 0, panel.getWidth()/3, panel.getHeight(), color, color);
-		pause = new ButtonFantôme(panel.getWidth()/3, panel.getHeight()/3, panel.getWidth()/3, panel.getHeight()/3, color, color);
-		previous = new ButtonFantôme(0, 0, panel.getWidth()/3, panel.getHeight(), color, color);
-		vUp = new ButtonFantôme(panel.getWidth()/3, 0, panel.getWidth()/3, panel.getHeight()/3, color, color);
-		vDown = new ButtonFantôme(panel.getWidth()/3, 2*panel.getHeight()/3, panel.getWidth()/3, panel.getHeight()/3, color, color);
+		try {
+			next = new ButtonFantôme(2*panel.getWidth()/3, 0, panel.getWidth()/3, panel.getHeight(), color, color, ImageIO.read(new File("n.png")), null);
+			pause = new ButtonFantôme(panel.getWidth()/3, panel.getHeight()/3, panel.getWidth()/3, panel.getHeight()/3, color, color, ImageIO.read(new File("pp.png")), null);
+			previous = new ButtonFantôme(0, 0, panel.getWidth()/3, panel.getHeight(), color, color, ImageIO.read(new File("p.png")), null);
+			vUp = new ButtonFantôme(panel.getWidth()/3, 0, panel.getWidth()/3, panel.getHeight()/3, color, color, ImageIO.read(new File("vu.png")), null);
+			vDown = new ButtonFantôme(panel.getWidth()/3, 2*panel.getHeight()/3, panel.getWidth()/3, panel.getHeight()/3, color, color, ImageIO.read(new File("vd.png")), null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		panel.addButtonFantôme(next);
 		panel.addButtonFantôme(pause);
