@@ -16,6 +16,7 @@ public class VLCJSinglePlayer implements Player {
 	public final int MAX_VOLUME = 100;
 	public final int MIN_VOLUME = 0;
 	private final int TIMEOUT = 500;
+	public final String BOUNDARY_REACHED = "Playlist boundary reached.";
 	
 	// action to run when a track finishes
 	private final Runnable finishedAction;
@@ -107,7 +108,7 @@ public class VLCJSinglePlayer implements Player {
 			players.get(position).play();
 			players.get(position - 1).stop();
 		} else {
-			System.out.println("Playlist boundary reached.");
+			System.out.println(BOUNDARY_REACHED);
 		}
 	}
 
@@ -123,7 +124,7 @@ public class VLCJSinglePlayer implements Player {
 			players.get(position).play();
 			players.get(position + 1).stop();
 		} else {
-			System.out.println("Playlist boundary reached.");
+			System.out.println(BOUNDARY_REACHED);
 		}
 	}
 
