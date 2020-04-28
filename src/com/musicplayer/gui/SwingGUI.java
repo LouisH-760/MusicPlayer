@@ -3,6 +3,8 @@ package com.musicplayer.gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -88,6 +90,23 @@ public class SwingGUI  extends JFrame implements GUI{
 		container.add(trackInfo, BorderLayout.NORTH);
 		container.add(controls, BorderLayout.SOUTH);
 		
+		// add event listener for when the window loses or regains focus
+		// here, only the regains focus interests us.
+		this.addWindowFocusListener(new WindowFocusListener() {
+
+			@Override
+			public void windowGainedFocus(WindowEvent arg0) {
+				// this one doesn't matter to us, leaving a message for debugging purposes
+				System.out.println("Lost focus");
+			}
+
+			@Override
+			public void windowLostFocus(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 	
 	/**
