@@ -1,79 +1,60 @@
-package com.musicplayer.gui;
+package com.musicplayer.gui.fantôme;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.musicplayer.gui.GUI;
 import com.musicplayer.keyboard.ShortcutBinding;
 
 /**
- * Create a Swing GUI for the player
- * @author louis Hermier
+ * Complete GUI for the player
+ * @author Vincent Carpentier
  *
  */
-public class SwingGUI  extends JFrame implements GUI{
+public class GUIFantôme extends JFrame implements GUI{
 
 	private static final long serialVersionUID = 1L;
 	
-	private GUISwingPanel panel;
+	private GUIFantômeCover panel;
 	private JPanel container;
-	private JPanel navigation;
 	private JPanel trackInfo;
-	private JPanel controls;
-	private Button next;
-	private Button pause;
-	private Button previous;
-	private Button vUp;
-	private Button vDown;
+	private ButtonFantôme next;
+	private ButtonFantôme pause;
+	private ButtonFantôme previous;
+	private ButtonFantôme vUp;
+	private ButtonFantôme vDown;
 	private JLabel trackLabel;
-	private Seekbar seekbar;
 	
 	private ShortcutBinding sb;
-	
-	private Runnable gainedFocusAction;
 
 	private final int WIDTH = 275;
-	private final int HEIGHT = WIDTH + 105;
+	private final int HEIGHT = WIDTH + 75;
 	
 	/**
 	 * Initialize the window
 	 * @param title : title of the window
 	 * recommended: the album name
 	 */
-	public SwingGUI(String title) {
-		next = new Button("►");
-		pause = new Button("⏯️");
-		previous = new Button("◄");
-		vUp = new Button("🔊");
-		vDown = new Button("🔉");
+	public GUIFantôme(String title) {
 		container = (JPanel) getContentPane();//No need to build a new JPanel
-		seekbar = new Seekbar();
-		navigation = new JPanel();
-		controls = new JPanel();
 		trackLabel = new JLabel("Empty");
-		panel = new GUISwingPanel();
+		panel = new GUIFantômeCover();
 		trackInfo = new JPanel();
 		
 		sb = new ShortcutBinding(this);
 		
-		//To avoid focus and space key not working shortcut
-		next.setFocusable(false);
-		pause.setFocusable(false);
-		previous.setFocusable(false);
-		vUp.setFocusable(false);
-		vDown.setFocusable(false);
-		seekbar.setFocusable(false);
-		
 		setFocusable(true);
 		setTitle(title);
-		setSize(WIDTH, HEIGHT);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -81,37 +62,28 @@ public class SwingGUI  extends JFrame implements GUI{
 		
 		container.setLayout(new BorderLayout());
 		container.add(panel, BorderLayout.CENTER);
-		controls.setLayout(new BorderLayout());
-		navigation.setLayout(new FlowLayout());
-		navigation.add(vDown);
-		navigation.add(previous);
-		navigation.add(pause);
-		navigation.add(next);
-		navigation.add(vUp);
-		controls.add(navigation, BorderLayout.CENTER);
-		controls.add(seekbar, BorderLayout.NORTH);
 		trackInfo.add(trackLabel);
 		container.add(trackInfo, BorderLayout.NORTH);
-		container.add(controls, BorderLayout.SOUTH);
+
+		pack();//To put all component size.
 		
-		// add event listener for when the window loses or regains focus
-		// here, only the regains focus interests us.
-		this.addWindowFocusListener(new WindowFocusListener() {
-
-			@Override
-			public void windowGainedFocus(WindowEvent arg0) {
-				if (gainedFocusAction != null) {
-					new Thread(gainedFocusAction).start();
-				}
-			}
-
-			@Override
-			public void windowLostFocus(WindowEvent arg0) {
-				// this one doesn't matter to us.
-			}
-			
-		});
-    pack();
+		//Temporary button sizes and color
+		Color color = new Color(0,0,0,190);
+		try {
+			next = new ButtonFantôme(2*panel.getWidth()/3, 0, panel.getWidth()/3, panel.getHeight(), color, color, ImageIO.read(new File("n.png")), null);
+			pause = new ButtonFantôme(panel.getWidth()/3, panel.getHeight()/3, panel.getWidth()/3, panel.getHeight()/3, color, color, ImageIO.read(new File("pp.png")), null);
+			previous = new ButtonFantôme(0, 0, panel.getWidth()/3, panel.getHeight(), color, color, ImageIO.read(new File("p.png")), null);
+			vUp = new ButtonFantôme(panel.getWidth()/3, 0, panel.getWidth()/3, panel.getHeight()/3, color, color, ImageIO.read(new File("vu.png")), null);
+			vDown = new ButtonFantôme(panel.getWidth()/3, 2*panel.getHeight()/3, panel.getWidth()/3, panel.getHeight()/3, color, color, ImageIO.read(new File("vd.png")), null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		panel.addButtonFantôme(next);
+		panel.addButtonFantôme(pause);
+		panel.addButtonFantôme(previous);
+		panel.addButtonFantôme(vUp);
+		panel.addButtonFantôme(vDown);
 	}
 	
 	/**
@@ -160,7 +132,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 * @param Runnable
 	 */
 	public void setNextAction(Runnable r) {
-		next.setClicked(r);
+		next.setAction(r);
 		sb.addBind(KeyEvent.VK_RIGHT, 0, r);
 	}
 	
@@ -170,7 +142,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 * @param Runnable
 	 */
 	public void setPreviousAction(Runnable r) {
-		previous.setClicked(r);
+		previous.setAction(r);
 		sb.addBind(KeyEvent.VK_LEFT, 0, r);
 	}
 
@@ -180,7 +152,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 * @param Runnable
 	 */
 	public void setPauseAction(Runnable r) {
-		pause.setClicked(r);
+		pause.setAction(r);
 		sb.addBind(KeyEvent.VK_SPACE, 0, r);
 	}
 	
@@ -190,7 +162,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 * @param Runnable
 	 */
 	public void setVUpAction(Runnable r) {
-		vUp.setClicked(r);
+		vUp.setAction(r);
 		sb.addBind(KeyEvent.VK_UP, 0, r);
 	}
 	
@@ -200,48 +172,8 @@ public class SwingGUI  extends JFrame implements GUI{
 	 * @param Runnable
 	 */
 	public void setVDownAction(Runnable r) {
-		vDown.setClicked(r);
+		vDown.setAction(r);
 		sb.addBind(KeyEvent.VK_DOWN, 0, r);
-	}
-
-	@Override
-	/**
-	 * Set the displayed position of the seekbar
-	 */
-	public void setSeekbarPosition(float position) {
-		seekbar.setPosition(position);
-	}
-
-	@Override
-	/**
-	 * get the displayed position of the seekbar
-	 */
-	public float getSeekbarPosition() {
-		return seekbar.getPosition();
-	}
-
-	@Override
-	/**
-	 * set what happens when the seekbar is moved
-	 */
-	public void setSeekbarMovedAction(Runnable r) {
-		seekbar.setPositionChanged(r);
-	}
-
-	@Override
-	/**
-	 * get the seeking position
-	 */
-	public float getSeekPosition() {
-		return seekbar.getNewPosition();
-	}
-
-	@Override
-	/**
-	 * set what happens when the window regains focus
-	 */
-	public void setGainedFocusAction(Runnable r) {
-		gainedFocusAction = r;
 	}
 
 }
