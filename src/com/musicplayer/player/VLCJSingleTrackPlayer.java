@@ -166,4 +166,8 @@ public class VLCJSingleTrackPlayer {
 	public void setPosition(float position) {
 		mediaPlayerComponent.mediaPlayer().controls().setPosition(position);
 	}
+	
+	public String getEmbeddedCover() {
+		return mediaPlayerComponent.mediaPlayer().media().meta().get(Meta.ARTWORK_URL);
+	}
 }

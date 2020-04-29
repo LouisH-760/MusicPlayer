@@ -1,6 +1,8 @@
 package com.musicplayer.player;
 
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import com.musicplayer.misc.Helper;
@@ -249,6 +251,12 @@ public class VLCJListPlayer implements Player{
 	public long getDuration() {
 		// this cannot be implemented due to the limitations of this player
 		return 0;
+	}
+
+	@Override
+	public URI getEmbeddedCoverUri() throws URISyntaxException{
+		String uri = mediaListPlayer.mediaPlayer().mediaPlayer().media().meta().get(Meta.ARTWORK_URL);
+		return (uri == null)? null : new URI(uri);
 	}
 	
 }
