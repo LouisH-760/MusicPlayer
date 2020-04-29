@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,17 +26,21 @@ public class SwingGUI  extends JFrame implements GUI{
 	private JPanel container;
 	private JPanel navigation;
 	private JPanel trackInfo;
+	private JPanel controls;
 	private Button next;
 	private Button pause;
 	private Button previous;
 	private Button vUp;
 	private Button vDown;
 	private JLabel trackLabel;
+	private Seekbar seekbar;
 	
 	private ShortcutBinding sb;
+	
+	private Runnable gainedFocusAction;
 
 	private final int WIDTH = 275;
-	private final int HEIGHT = WIDTH + 75;
+	private final int HEIGHT = WIDTH + 105;
 	
 	/**
 	 * Initialize the window
@@ -48,7 +54,9 @@ public class SwingGUI  extends JFrame implements GUI{
 		vUp = new Button("🔊");
 		vDown = new Button("🔉");
 		container = (JPanel) getContentPane();//No need to build a new JPanel
+		seekbar = new Seekbar();
 		navigation = new JPanel();
+		controls = new JPanel();
 		trackLabel = new JLabel("Empty");
 		panel = new GUISwingPanel();
 		trackInfo = new JPanel();
@@ -61,6 +69,7 @@ public class SwingGUI  extends JFrame implements GUI{
 		previous.setFocusable(false);
 		vUp.setFocusable(false);
 		vDown.setFocusable(false);
+		seekbar.setFocusable(false);
 		
 		setFocusable(true);
 		setTitle(title);
@@ -72,17 +81,37 @@ public class SwingGUI  extends JFrame implements GUI{
 		
 		container.setLayout(new BorderLayout());
 		container.add(panel, BorderLayout.CENTER);
+		controls.setLayout(new BorderLayout());
 		navigation.setLayout(new FlowLayout());
 		navigation.add(vDown);
 		navigation.add(previous);
 		navigation.add(pause);
 		navigation.add(next);
 		navigation.add(vUp);
+		controls.add(navigation, BorderLayout.CENTER);
+		controls.add(seekbar, BorderLayout.NORTH);
 		trackInfo.add(trackLabel);
 		container.add(trackInfo, BorderLayout.NORTH);
-		container.add(navigation, BorderLayout.SOUTH);
+		container.add(controls, BorderLayout.SOUTH);
+		
+		// add event listener for when the window loses or regains focus
+		// here, only the regains focus interests us.
+		this.addWindowFocusListener(new WindowFocusListener() {
 
-		pack();
+			@Override
+			public void windowGainedFocus(WindowEvent arg0) {
+				if (gainedFocusAction != null) {
+					new Thread(gainedFocusAction).start();
+				}
+			}
+
+			@Override
+			public void windowLostFocus(WindowEvent arg0) {
+				// this one doesn't matter to us.
+			}
+			
+		});
+    pack();
 	}
 	
 	/**
@@ -173,6 +202,46 @@ public class SwingGUI  extends JFrame implements GUI{
 	public void setVDownAction(Runnable r) {
 		vDown.setClicked(r);
 		sb.addBind(KeyEvent.VK_DOWN, 0, r);
+	}
+
+	@Override
+	/**
+	 * Set the displayed position of the seekbar
+	 */
+	public void setSeekbarPosition(float position) {
+		seekbar.setPosition(position);
+	}
+
+	@Override
+	/**
+	 * get the displayed position of the seekbar
+	 */
+	public float getSeekbarPosition() {
+		return seekbar.getPosition();
+	}
+
+	@Override
+	/**
+	 * set what happens when the seekbar is moved
+	 */
+	public void setSeekbarMovedAction(Runnable r) {
+		seekbar.setPositionChanged(r);
+	}
+
+	@Override
+	/**
+	 * get the seeking position
+	 */
+	public float getSeekPosition() {
+		return seekbar.getNewPosition();
+	}
+
+	@Override
+	/**
+	 * set what happens when the window regains focus
+	 */
+	public void setGainedFocusAction(Runnable r) {
+		gainedFocusAction = r;
 	}
 
 }

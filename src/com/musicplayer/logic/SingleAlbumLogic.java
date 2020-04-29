@@ -6,7 +6,7 @@ import com.musicplayer.gui.GUI;
 import com.musicplayer.gui.SwingGUI;
 import com.musicplayer.gui.fantôme.GUIFantôme;
 import com.musicplayer.player.Player;
-import com.musicplayer.player.VLCJListPlayer;
+import com.musicplayer.player.VLCJSinglePlayer;
 import com.musicplayer.scanner.FolderScanner;
 import com.musicplayer.scanner.Scanner;
 
@@ -17,7 +17,19 @@ import com.musicplayer.scanner.Scanner;
  *
  */
 public class SingleAlbumLogic implements Logic {
+	private final Runnable updateTitleLabel = () -> {
+		gui.setTrackLabel("Whiteout");
+		String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); 	// test label to check for
+																							// width
+		if (!gui.isStringTooWide(withArtist)) // if it is narrow enough to fit on the screen
+			gui.setTrackLabel(withArtist); // display title and artist (artist - title)
+		else
+			gui.setTrackLabel(player.nowPlayingTitle()); // else, only display the title
 
+		gui.setWindowName(player.nowPlayingAlbum()); 	// since we extracted metadata from the song, get album name
+														// from here
+														// allows / , trailing ., ....
+	};
 	private static Player player;
 	private static final String DEFAULT_ART = "default.png";
 	private static Scanner scanner;
@@ -42,8 +54,9 @@ public class SingleAlbumLogic implements Logic {
 		// works with interfaces
 		// Dropping in a new Scanner, gui or player should only induce changes here
 		scanner = new FolderScanner(args[0]);
+
 		gui = new GUIFantôme(scanner.getAlbumName());
-		player = new VLCJListPlayer();
+		player = new VLCJSinglePlayer();
 
 		// get the songs and images from the scanner
 		songs = scanner.getAllMusicFiles();
@@ -85,18 +98,10 @@ public class SingleAlbumLogic implements Logic {
 			player.volumeDown();
 		});
 		gui.setTrackLabel(scanner.getAlbumName());
-		player.setUpdateMediaAction(() -> {
-				String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); // test label to check for
-																									// width
-				if (!gui.isStringTooWide(withArtist)) // if it is narrow enough to fit on the screen
-					gui.setTrackLabel(withArtist); // display title and artist (artist - title)
-				else
-					gui.setTrackLabel(player.nowPlayingTitle()); // else, only display the title
-	
-				gui.setWindowName(player.nowPlayingAlbum()); // since we extracted metadata from the song, get album name
-																// from here
-				// allows / , trailing ., ....
-			});
+		player.setUpdateMediaAction(updateTitleLabel);
+		gui.setGainedFocusAction(updateTitleLabel);
+		player.setPositionUpdatedAction(() -> gui.setSeekbarPosition(player.getPosition()));
+		gui.setSeekbarMovedAction(() -> player.setPosition(gui.getSeekPosition()));
 		// add all the songs we found to the playback
 		player.addMultiple(songs);
 	}

@@ -228,5 +228,27 @@ public class VLCJListPlayer implements Player{
 	public String nowPlayingAlbum() {
 		return currentMedia.meta().get(Meta.ALBUM);
 	}
+
+	@Override
+	public void setPositionUpdatedAction(Runnable r) {
+		// This doesn't do anything, as this player can't report the playback position.
+	}
+
+	@Override
+	public void setPosition(float position) {
+		// this cannot be implemented due to the limitations of this player
+	}
+
+	@Override
+	public float getPosition() {
+		// this cannot be implemented due to the limitations of this player
+		return 0;
+	}
+
+	@Override
+	public long getDuration() {
+		// this cannot be implemented due to the limitations of this player
+		return 0;
+	}
 	
 }
