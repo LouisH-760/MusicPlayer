@@ -245,8 +245,8 @@ public class SwingGUI  extends JFrame implements GUI{
 
 	@Override
 	public void setAlbumArt(URI uri) {
-		panel.setUri(uri);
-		panel.repaint();
+		String path = uri.getPath();
+		setAlbumArt(path);
 	}
 
 }

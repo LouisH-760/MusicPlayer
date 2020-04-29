@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -83,14 +82,5 @@ public class GUISwingPanel extends JPanel {
 			System.out.println("Error (" + e.toString() + ") while loading the picture (" + this.filename + ")");
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Set the image using an URI
-	 * @param uri
-	 */
-	public void setUri(URI uri) {
-		String path = uri.getPath();
-		setFilename(path);
 	}
 }
