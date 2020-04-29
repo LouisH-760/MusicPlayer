@@ -18,5 +18,5 @@
 The player alone:  
 ![Player](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/player.png)
 
-The player and it's associated terminal in a full desktop
+The player and it's associated terminal side by side:
 ![player and console](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/Fullscreen.png)
