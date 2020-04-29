@@ -1,5 +1,7 @@
 package com.musicplayer.player;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -59,4 +61,7 @@ public interface Player {
 	public float getPosition();
 	// get the track duration (long, in milliseconds)
 	public long getDuration();
+	// get an url to the embedded artwork
+	// (for the VLCJ player, this is a path to a cached copy of the artwork)
+	public URI getEmbeddedCoverUri() throws URISyntaxException;
 }

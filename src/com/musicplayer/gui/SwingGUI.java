@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.net.URI;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -239,6 +240,12 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setGainedFocusAction(Runnable r) {
 		gainedFocusAction = r;
+	}
+
+	@Override
+	public void setAlbumArt(URI uri) {
+		panel.setUri(uri);
+		panel.repaint();
 	}
 
 }

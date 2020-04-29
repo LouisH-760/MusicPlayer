@@ -1,5 +1,7 @@
 package com.musicplayer.player;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -279,4 +281,8 @@ public class VLCJSinglePlayer implements Player {
 		return players.get(position).getDuration();
 	}
 
+	public URI getEmbeddedCoverUri() throws URISyntaxException{
+		String uri = players.get(position).getEmbeddedCover();
+		return (uri == null)? null : new URI(uri);
+	}
 }

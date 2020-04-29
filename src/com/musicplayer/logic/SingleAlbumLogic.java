@@ -1,5 +1,7 @@
 package com.musicplayer.logic;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import com.musicplayer.gui.GUI;
@@ -24,7 +26,14 @@ public class SingleAlbumLogic implements Logic {
 			gui.setTrackLabel(withArtist); // display title and artist (artist - title)
 		else
 			gui.setTrackLabel(player.nowPlayingTitle()); // else, only display the title
-
+		try {
+			URI uri = player.getEmbeddedCoverUri();
+			if(uri != null) {
+				gui.setAlbumArt(player.getEmbeddedCoverUri());
+			}
+		} catch (URISyntaxException e) {
+			System.out.println("Problem while making the URI");
+		}
 		gui.setWindowName(player.nowPlayingAlbum()); 	// since we extracted metadata from the song, get album name
 														// from here
 														// allows / , trailing ., ....

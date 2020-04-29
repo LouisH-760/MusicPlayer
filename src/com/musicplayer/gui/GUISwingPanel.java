@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -73,9 +74,23 @@ public class GUISwingPanel extends JPanel {
 	public void setFilename(String filename) {
 		this.filename = filename;
 		try {
-			image = ImageIO.read(new File(filename));// get the image
+			File file = new File(filename);
+			if(file.canRead()) {
+				image = ImageIO.read(file);// get the image
+			}
+				
 		} catch (IOException e) {
-			System.out.println("Error (" + e.toString() + ") while loading the picture");
+			System.out.println("Error (" + e.toString() + ") while loading the picture (" + this.filename + ")");
+			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Set the image using an URI
+	 * @param uri
+	 */
+	public void setUri(URI uri) {
+		String path = uri.getPath();
+		setFilename(path);
 	}
 }
