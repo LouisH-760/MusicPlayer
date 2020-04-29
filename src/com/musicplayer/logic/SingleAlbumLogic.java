@@ -29,6 +29,7 @@ public class SingleAlbumLogic implements Logic {
 		try {
 			URI uri = player.getEmbeddedCoverUri();
 			if(uri != null) {
+				System.out.println("Using embedded cover art");
 				gui.setAlbumArt(player.getEmbeddedCoverUri());
 			}
 		} catch (URISyntaxException e) {
