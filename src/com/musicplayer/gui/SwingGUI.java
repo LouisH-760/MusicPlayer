@@ -150,6 +150,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setAlbumArt(String filename) {
 		panel.setFilename(filename);
+		panel.repaint();
 	}
 	
 	/**
