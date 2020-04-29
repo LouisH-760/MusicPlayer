@@ -167,6 +167,10 @@ public class VLCJSingleTrackPlayer {
 		mediaPlayerComponent.mediaPlayer().controls().setPosition(position);
 	}
 	
+	/**
+	 * Get the embedded art URI provided by Libvlc
+	 * @return
+	 */
 	public String getEmbeddedCover() {
 		return mediaPlayerComponent.mediaPlayer().media().meta().get(Meta.ARTWORK_URL);
 	}

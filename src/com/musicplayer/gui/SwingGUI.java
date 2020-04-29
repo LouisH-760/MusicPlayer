@@ -246,11 +246,17 @@ public class SwingGUI  extends JFrame implements GUI{
 	}
 
 	@Override
+	/**
+	 * set the displayed album art using an URI
+	 */
 	public void setAlbumArt(URI uri) {
 		String path = uri.getPath();
 		setAlbumArt(path);
 	}
 	
+	/**
+	 * Repaint the whole display
+	 */
 	private void refresh() {
 		this.repaint();
 	}

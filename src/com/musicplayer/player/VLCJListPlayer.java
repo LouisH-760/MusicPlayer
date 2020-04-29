@@ -254,6 +254,9 @@ public class VLCJListPlayer implements Player{
 	}
 
 	@Override
+	/**
+	 * return the embedded cover URI provided by libvlc
+	 */
 	public URI getEmbeddedCoverUri() throws URISyntaxException{
 		String uri = mediaListPlayer.mediaPlayer().mediaPlayer().media().meta().get(Meta.ARTWORK_URL);
 		return (uri == null)? null : new URI(uri);
