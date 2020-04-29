@@ -101,6 +101,8 @@ public class SwingGUI  extends JFrame implements GUI{
 			public void windowGainedFocus(WindowEvent arg0) {
 				if (gainedFocusAction != null) {
 					new Thread(gainedFocusAction).start();
+					// repaint the whole window
+					refresh();
 				}
 			}
 
@@ -247,6 +249,10 @@ public class SwingGUI  extends JFrame implements GUI{
 	public void setAlbumArt(URI uri) {
 		String path = uri.getPath();
 		setAlbumArt(path);
+	}
+	
+	private void refresh() {
+		this.repaint();
 	}
 
 }
