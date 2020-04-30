@@ -9,6 +9,10 @@ import java.util.List;
  *
  */
 public interface Player {
+	
+	public static final int MAX_VOLUME = 100;
+	public static final int MIN_VOLUME = 0;
+	
 	// add a single song to the play queue
 	// (can technically be done after starting playing)
 	public void add(String song);

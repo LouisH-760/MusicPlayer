@@ -13,10 +13,10 @@ import com.musicplayer.misc.Helper;
 public class VLCJSinglePlayer implements Player {
 	// volume is public in case the logic needs to access it.
 	// this is also shorter than a get-method
-	public final int MAX_VOLUME = 100;
-	public final int MIN_VOLUME = 0;
-	private final int TIMEOUT = 500;
-	public final String BOUNDARY_REACHED = "Playlist boundary reached.";
+	public static final int MAX_VOLUME = 100;
+	public static final int MIN_VOLUME = 0;
+	private static final int TIMEOUT = 500;
+	public static final String BOUNDARY_REACHED = "Playlist boundary reached.";
 	
 	// action to run when a track finishes
 	private final Runnable finishedAction;
