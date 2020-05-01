@@ -1,5 +1,7 @@
 package com.musicplayer.player;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,6 +221,12 @@ public class VLCJDuoPlayer implements Player {
 	@Override
 	public long getDuration() {
 		return playerBuffer[0].mediaPlayer().media().info().duration();
+	}
+
+	@Override
+	public URI getEmbeddedCoverUri() throws URISyntaxException {
+		String uri = playerBuffer[0].mediaPlayer().media().meta().get(Meta.ARTWORK_URL);
+		return new URI(uri);
 	}
 
 }
