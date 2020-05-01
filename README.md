@@ -21,3 +21,18 @@ The player alone:
 
 The player and it's associated terminal side by side:
 ![player and console](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/Fullscreen.png)
+
+## VLCJ License
+
+```
+VLCJ is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+```
+
+[GNU Licenses](https://www.gnu.org/licenses/)
+
+```
+VLCJ makes use of JNA (https://jna.dev.java.net/). JNA is licensed under LGPL.
+```
