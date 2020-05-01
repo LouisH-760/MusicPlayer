@@ -10,6 +10,11 @@ import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
+/**
+ * @author Vincent Carpentier
+ * @deprecated unfinished
+ */
+@Deprecated
 public class VLCJBufferedPlayer implements Player {
 
 	private List<String> songs = new ArrayList<String>();
@@ -19,7 +24,7 @@ public class VLCJBufferedPlayer implements Player {
 	private int bufferPosition;
 	private int songsPosition;
 	private int endPosition = 0;
-	private int incr = 5;
+	private int incr = DEFAULT_INCR;
 	
 	public VLCJBufferedPlayer(int size) {
 		playerBuffer = new AudioPlayerComponent[size];
@@ -104,7 +109,6 @@ public class VLCJBufferedPlayer implements Player {
 	@Override
 	public void previous() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -122,18 +126,6 @@ public class VLCJBufferedPlayer implements Player {
 	@Override
 	public boolean isPaused() {
 		return !playerBuffer[bufferPosition].mediaPlayer().status().isPlaying();
-	}
-
-	@Override
-	public void volumeDown() {
-		if(getVolume() <= MAX_VOLUME - incr)
-			setVolume(getVolume() + incr);
-	}
-
-	@Override
-	public void volumeUp() {
-		if(getVolume() >= MIN_VOLUME + incr)
-			setVolume(getVolume() - incr);
 	}
 
 	@Override

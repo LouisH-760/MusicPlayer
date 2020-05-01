@@ -11,6 +11,12 @@ import uk.co.caprica.vlcj.media.MediaParsedStatus;
 import uk.co.caprica.vlcj.media.Meta;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
+/**
+ * Play media using VLCJ (libvlc api)
+ * Two songs buffered player
+ * @author CarpentierVincent
+ *
+ */
 public class VLCJDuoPlayer implements Player {
 
 	private List<String> songs = new ArrayList<String>();
@@ -19,7 +25,7 @@ public class VLCJDuoPlayer implements Player {
 	private VLCJMediaPlayerEventAdapter vlcjDuoMediaPlayerEventAdapter;
 	private int songsPosition = 0;
 	private Runnable updateMediaAction;
-	private int incr = 5;
+	private int incr = DEFAULT_INCR;
 
 	public VLCJDuoPlayer() {
 		vlcjDuoMediaPlayerEventAdapter = new VLCJMediaPlayerEventAdapter();
@@ -140,18 +146,6 @@ public class VLCJDuoPlayer implements Player {
 	@Override
 	public boolean isPaused() {
 		return !playerBuffer[0].mediaPlayer().status().isPlaying();
-	}
-
-	@Override
-	public void volumeDown() {
-		if (getVolume() >= MIN_VOLUME + incr)
-			setVolume(getVolume() - incr);
-	}
-
-	@Override
-	public void volumeUp() {
-		if (getVolume() <= MAX_VOLUME - incr)
-			setVolume(getVolume() + incr);
 	}
 
 	@Override

@@ -9,58 +9,121 @@ import java.util.List;
  *
  */
 public interface Player {
-	
+	// volume is public in case the logic needs to access it.
 	public static final int MAX_VOLUME = 100;
 	public static final int MIN_VOLUME = 0;
+	public static final int DEFAULT_INCR = 5;
+	public static final String BOUNDARY_REACHED = "Playlist boundary reached.";
 	
-	// add a single song to the play queue
-	// (can technically be done after starting playing)
+	/**
+	 * Add a single song to the queue (using it's path)
+	 * (can technically be done after starting playing)
+	 * @param song : path to the audio file
+	 */
 	public void add(String song);
-	// add multiple songs to the play queue
-	// (can technically be done after starting playing)
+	/**
+	 * Add multiple songs to the queue (using their path)
+	 * (can technically be done after starting playing)
+	 * @param songs: arraylist of paths to the audio files
+	 */
 	public void addMultiple(List<String> songs);
-	// start / resume playback
+	/**
+	 * Start playing the list (will loop at the end)
+	 */
 	public void play();
-	// pause playback
+	/**
+	 * Pause playback
+	 */
 	public void pause();
-	// jump to song after current one in the queue
-	// if paused, resume
+	/**
+	 * Jump to song after current one in the queue. If playback is paused, resume.
+	 */
 	public void next();
-	// jump to song before the current one in the queue
-	// if paused, resume
+	/**
+	 * Jump to song before the current one in the queue. If playback is paused, resume.
+	 */
 	public void previous();
-	// completely stop playback.
-	// implies freeing everything used for playback as much as possible
+	// Completely stop playback.
+	// Implies freeing everything used for playback as much as possible
 	public void stop();
-	// set the playback volume
-	// ideally from 0 - 100 for consistency
+	/**
+	 * Set the volume to a precise int, between the minimum and maximum set in the class constants.
+	 */
 	public void setVolume(int volume);
-	// is playback paused?
+	/**
+	 * Checks if playback is paused
+	 * Useful if you want to have only one play/pause button
+	 */
 	public boolean isPaused();
-	// decrement the volume by a set amount
-	public void volumeDown();
-	// increment the volume by a set amount
-	public void volumeUp();
-	// set the amount by which the volume is incremented and decremented
+	/**
+	 * Decrement the volume by a certain value
+	 * Available through getVolumeIncrement
+	 * Edit it through setVolumeIncrement
+	 */
+	public default void volumeDown() {
+		int newVolume = getVolume() - getVolumeIncrement();
+		if(newVolume >= MIN_VOLUME)
+			setVolume(newVolume);
+	}
+	/**
+	 * Increment the volume by a certain value
+	 * Available through getVolumeIncrement()
+	 * Edit it through setVolumeIncrement
+	 */
+	public default void volumeUp() {
+		int newVolume = getVolume() + getVolumeIncrement();
+		if(newVolume <= MAX_VOLUME)
+			setVolume(newVolume);
+	}
+	/**
+	 * Set the amount by which the volume is modified
+	 * Affects volumeUp() and volumeDown()
+	 */
 	public void setVolumeIncrement(int incr);
-	// get the amount by which the volume is incremented or decremented
+	/**
+	 * Get the increment of the volume
+	 */
 	public int getVolumeIncrement();
-	// set what will be run when the metadata for the new media playing will become available
+	/**
+	 * Updates the function that is executed when the metadata for the new playing media becomes available
+	 * @param r > ideally a lambda function that uses the functions below to get their info
+	 */
 	public void setUpdateMediaAction(Runnable r);
-	// get the title of the current playing media
+	/**
+	 * Get the title of the song currently playing
+	 */
 	public String nowPlayingTitle();
 	// get the artist of the current playing media
+	/**
+	 * get the artist of the song currently playing
+	 */
 	public String nowPlayingArtist();
-	// get the album of the current playing media
+	/**
+	 * Get the album of the song currently playing
+	 */
 	public String nowPlayingAlbum();
-	// get the current volume
+	/**
+	 * *Get the volume level
+	 * @return volume
+	 */
 	public int getVolume();
-	// set what happens when the playback position is updated.
+	/**
+	 * What runs when the position is updated?
+	 * @param r
+	 */
 	public void setPositionUpdatedAction(Runnable r);
-	// set the playback position
+	/**
+	 * Set the playback position
+	 * @param position: float between 0 (beginnning) and 1 (end)
+	 */
 	public void setPosition(float position);
-	// get the playback position
+	/**
+	 * Get the playback position
+	 * @return position: float between 0 (beginning) and 1 (end)
+	 */
 	public float getPosition();
-	// get the track duration (long, in milliseconds)
+	/**
+	 * Get the duration of the current track (long, in milliseconds)
+	 */
 	public long getDuration();
 }

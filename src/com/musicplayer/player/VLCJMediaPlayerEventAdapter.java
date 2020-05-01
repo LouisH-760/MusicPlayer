@@ -3,6 +3,10 @@ package com.musicplayer.player;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
+/**
+ * @author Vincent Carpentier
+ *
+ */
 public class VLCJMediaPlayerEventAdapter extends MediaPlayerEventAdapter {
 
 	private Runnable finishedAction;
