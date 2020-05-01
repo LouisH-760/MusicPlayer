@@ -1,4 +1,4 @@
-package com.musicplayer.player;
+package com.musicplayer.player.vlcjsingle;
 
 import com.musicplayer.misc.Helper;
 
