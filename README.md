@@ -5,6 +5,7 @@
 - building: use the vlcj, vlcj-native and other libraries. vlcj4 only, not tested for other versions.
 - replacing the default image: replace default.png
 - rewriting player, scanner or GUI: implement the provided interfaces for a drop-in replacement
+- javadoc for the existing classes: [Github Pages](https://louish-760.github.io/MusicPlayer/)
 
 ## Keyboard Shortcuts
 - Next: `RIGHT` (right arrow)
