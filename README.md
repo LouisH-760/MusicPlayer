@@ -1,8 +1,6 @@
 # MusicPlayer
 > Barebones Java music player
 
-![Generate Javadoc](https://github.com/LouisH-760/MusicPlayer/workflows/Generate%20Javadoc/badge.svg)
-
 - invocation: `java -jar player.jar /path/to/album`
 - building: use the vlcj, vlcj-native and other libraries. vlcj4 only, not tested for other versions.
 - replacing the default image: replace default.png
