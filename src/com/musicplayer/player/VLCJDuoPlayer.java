@@ -47,10 +47,18 @@ public class VLCJDuoPlayer implements Player {
 		}
 	}
 
+	/**
+	 * Play and preload next sound
+	 * @return true if it can preload or load song in list bounds
+	 */
 	private boolean swapSong() {
 		return swapSong(false);
 	}
 
+	/**
+	 * @param reverse if it goes back.
+	 * @return true if it can preload or load song in list bounds
+	 */
 	private boolean swapSong(boolean reverse) {
 		if (!reverse) {
 			if (songsPosition + 1 < songs.size()) {
@@ -73,12 +81,19 @@ public class VLCJDuoPlayer implements Player {
 		return false;
 	}
 
+	/**
+	 * Swap buffer elements positions
+	 */
 	private void swapBuffer() {
 		tampon = playerBuffer[0];
 		playerBuffer[0] = playerBuffer[1];
 		playerBuffer[1] = tampon;
 	}
 
+	/**
+	 * @param songPosition position of the song into the list
+	 * @param bufferPosition position where to load the song into the buffer
+	 */
 	private void loadSong(int songPosition, int bufferPosition) {
 		playerBuffer[bufferPosition].mediaPlayer().media().prepare(songs.get(songPosition));
 		playerBuffer[bufferPosition].mediaPlayer().media().parsing().parse();
