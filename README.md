@@ -17,10 +17,10 @@
 ## Screenshots
 ### Current Swing GUI
 The player alone:  
-![Player](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/player.png)
+![Player](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/alone.png)
 
 The player and it's associated terminal side by side:
-![player and console](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/Fullscreen.png)  
+![player and console](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/companion.png)  
 
 ## VLCJ license
 
