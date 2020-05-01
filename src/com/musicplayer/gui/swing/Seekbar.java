@@ -1,4 +1,4 @@
-package com.musicplayer.gui;
+package com.musicplayer.gui.swing;
 
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;

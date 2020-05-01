@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import com.musicplayer.gui.GUI;
-import com.musicplayer.gui.SwingGUI;
+import com.musicplayer.gui.swing.SwingGUI;
 import com.musicplayer.player.Player;
 import com.musicplayer.player.VLCJSinglePlayer;
 import com.musicplayer.scanner.FolderScanner;

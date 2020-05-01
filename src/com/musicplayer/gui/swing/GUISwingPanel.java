@@ -1,4 +1,4 @@
-package com.musicplayer.gui;
+package com.musicplayer.gui.swing;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

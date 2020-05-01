@@ -1,4 +1,4 @@
-package com.musicplayer.gui;
+package com.musicplayer.gui.swing;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
