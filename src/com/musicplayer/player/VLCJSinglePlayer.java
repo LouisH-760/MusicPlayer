@@ -13,12 +13,8 @@ import com.musicplayer.misc.Helper;
  * 
  */
 public class VLCJSinglePlayer implements Player {
-	// volume is public in case the logic needs to access it.
 	// this is also shorter than a get-method
-	public final int MAX_VOLUME = 100;
-	public final int MIN_VOLUME = 0;
-	private final int TIMEOUT = 500;
-	public final String BOUNDARY_REACHED = "Playlist boundary reached.";
+	private static final int TIMEOUT = 500;
 	
 	// action to run when a track finishes
 	private final Runnable finishedAction;
@@ -28,38 +24,26 @@ public class VLCJSinglePlayer implements Player {
 	private Runnable trackChanged;
 	
 	private List<VLCJSingleTrackPlayer> players;
-	private int position;
-	private int volumeIncr;
-	private boolean playing;
-	private int volume;
+	private int position = 0;
+	private int volumeIncr = DEFAULT_INCR;
+	private boolean playing = false;
+	private int volume = MAX_VOLUME;
 	
 	/**
 	 * constructor: instanciate the player
 	 */
 	public VLCJSinglePlayer() {
 		players = new ArrayList<VLCJSingleTrackPlayer>();
-		position = 0;
-		volumeIncr = 5;
-		playing = false;
-		volume = 100;
 		finishedAction = () -> next();
 	}
 
 	@Override
-	/**
-	 * Add a single song to the queue
-	 * @param song > path to the song
-	 */
 	public void add(String song) {
 		players.add(new VLCJSingleTrackPlayer(song));
 		updateActions();
 	}
 
 	@Override
-	/**
-	 * Add multiple songs to the queue
-	 * @param List of the songs to add
-	 */
 	public void addMultiple(List<String> songs) {
 		for(String song : songs) {
 			players.add(new VLCJSingleTrackPlayer(song));
@@ -68,9 +52,6 @@ public class VLCJSinglePlayer implements Player {
 	}
 
 	@Override
-	/**
-	 * Start / resume playback
-	 */
 	public void play() {
 		playing = true;
 		trackChanged.run();
@@ -89,18 +70,12 @@ public class VLCJSinglePlayer implements Player {
 	}
 
 	@Override
-	/**
-	 * pause playback
-	 */
 	public void pause() {
 		playing = false;
 		players.get(position).pause();
 	}
 
 	@Override
-	/**
-	 * skip to the next track
-	 */
 	public void next() {
 		if (position < players.size() - 1)
 		{
@@ -115,9 +90,6 @@ public class VLCJSinglePlayer implements Player {
 	}
 
 	@Override
-	/**
-	 * skip to the previous track
-	 */
 	public void previous() {
 		if (position > 0) {
 			playing = true;
@@ -142,9 +114,6 @@ public class VLCJSinglePlayer implements Player {
 	}
 
 	@Override
-	/**
-	 * set the volume precisely
-	 */
 	public void setVolume(int volume) {
 		Helper.check(volume <= MAX_VOLUME, "You cannot set the volume this high");
 		Helper.check(volume >= MIN_VOLUME, "You cannot set the volume this low");
@@ -155,84 +124,42 @@ public class VLCJSinglePlayer implements Player {
 	}
 
 	@Override
-	/**
-	 * is playback paused?
-	 */
 	public boolean isPaused() {
 		return !(playing);
 	}
 
 	@Override
-	/**
-	 * decrease the volume by a given increment
-	 */
-	public void volumeDown() {
-		if(volume > MIN_VOLUME + volumeIncr)
-			setVolume(volume - volumeIncr);
-	}
-
-	@Override
-	/**
-	 * increase the volume by a given increment
-	 */
-	public void volumeUp() {
-		if(volume <= MAX_VOLUME - volumeIncr)
-			setVolume(volume + volumeIncr);
-	}
-
-	@Override
-	/**
-	 * set the increment by which to increase / decrease the volume
-	 */
 	public void setVolumeIncrement(int incr) {
 		volumeIncr = incr;
 
 	}
 
 	@Override
-	/**
-	 * get the increment by which the volume is increased / decreased
-	 */
 	public int getVolumeIncrement() {
 		return volumeIncr;
 	}
 
 	@Override
-	/**
-	 * set what happens when the media metadata is updated
-	 */
 	public void setUpdateMediaAction(Runnable r) {
 		trackChanged = r;
 	}
 
 	@Override
-	/**
-	 * get the title of the now playing media
-	 */
 	public String nowPlayingTitle() {
 		return players.get(position).getTitle();
 	}
 
 	@Override
-	/**
-	 * get the artist of the now playing media
-	 */
 	public String nowPlayingArtist() {
 		return players.get(position).getArtist();
 	}
 
 	@Override
-	/**
-	 * get the album of the now playing media
-	 */
 	public String nowPlayingAlbum() {
 		return players.get(position).getAlbum();
 	}
 
 	@Override
-	/**
-	 * get the current volume
-	 */
 	public int getVolume() {
 		return volume;
 	}
@@ -247,26 +174,17 @@ public class VLCJSinglePlayer implements Player {
 		}
 	}
 	
-	/**
-	 * get the playback position
-	 * @return position: float between 0 (beginning) and 1 (end)
-	 */
+	@Override
 	public float getPosition() {
 		return players.get(position).getPosition();
 	}
 
-	/**
-	 * what runs when the position is updated?
-	 * @param r
-	 */
+	@Override
 	public void setPositionUpdatedAction(Runnable r) {
 		positionUpdatedAction = r;
 	}
 	
-	/**
-	 * set the playback position
-	 * @param position: float between 0 (beginnning) and 1 (end)
-	 */
+	@Override
 	public void setPosition(float position) {
 		Helper.check(position <= 1, "Position can't be higher than 1");
 		Helper.check(position >= 0, "Position can't be lower than 0");
@@ -274,9 +192,6 @@ public class VLCJSinglePlayer implements Player {
 	}
 
 	@Override
-	/**
-	 * get the duration of the current track (long, in milliseconds)
-	 */
 	public long getDuration() {
 		return players.get(position).getDuration();
 	}
