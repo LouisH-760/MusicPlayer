@@ -74,9 +74,14 @@ public class GUISwingPanel extends JPanel {
 	public void setFilename(String filename) {
 		this.filename = filename;
 		try {
-			image = ImageIO.read(new File(filename));// get the image
+			File file = new File(filename);
+			if(file.canRead()) {
+				image = ImageIO.read(file);// get the image
+			}
+				
 		} catch (IOException e) {
-			System.out.println("Error (" + e.toString() + ") while loading the picture");
+			System.out.println("Error (" + e.toString() + ") while loading the picture (" + this.filename + ")");
+			e.printStackTrace();
 		}
 	}
 }

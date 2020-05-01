@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.net.URI;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -102,6 +103,8 @@ public class SwingGUI  extends JFrame implements GUI{
 			public void windowGainedFocus(WindowEvent arg0) {
 				if (gainedFocusAction != null) {
 					new Thread(gainedFocusAction).start();
+					// repaint the whole window
+					refresh();
 				}
 			}
 
@@ -152,6 +155,7 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setAlbumArt(String filename) {
 		panel.setFilename(filename);
+		panel.repaint();
 	}
 	
 	/**
@@ -242,6 +246,22 @@ public class SwingGUI  extends JFrame implements GUI{
 	 */
 	public void setGainedFocusAction(Runnable r) {
 		gainedFocusAction = r;
+	}
+
+	@Override
+	/**
+	 * set the displayed album art using an URI
+	 */
+	public void setAlbumArt(URI uri) {
+		String path = uri.getPath();
+		setAlbumArt(path);
+	}
+	
+	/**
+	 * Repaint the whole display
+	 */
+	private void refresh() {
+		this.repaint();
 	}
 
 }

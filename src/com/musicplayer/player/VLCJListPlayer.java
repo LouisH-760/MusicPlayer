@@ -1,6 +1,8 @@
 package com.musicplayer.player;
 
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import com.musicplayer.misc.Helper;
@@ -26,8 +28,6 @@ import uk.co.caprica.vlcj.player.list.PlaybackMode;
 public class VLCJListPlayer implements Player{
 	private MediaPlayerFactory mediaPlayerFactory;
 	private final EmbeddedMediaPlayer mediaPlayerComponent;
-	public static final int MAX_VOLUME = 100;
-	public static final int MIN_VOLUME = 0;
 	public static final int NEXT_ITEM_TIMEOUT = 5000;// In milli secondes
 	
 	private Runnable mediaUpdateAction;
@@ -37,7 +37,7 @@ public class VLCJListPlayer implements Player{
 	private MediaListRef mediaListRef;
 	private boolean paused;
 	private int volume;
-	private int incr = 5;
+	private int incr = DEFAULT_INCR;
 	
 	private Media currentMedia;
 	
@@ -73,10 +73,7 @@ public class VLCJListPlayer implements Player{
 		 setVolume(MAX_VOLUME); // reset the volume when the player is created
 	}
 	
-	/**
-	 * Add a single song to the queue (using it's path)
-	 * @param song : path to the audio file
-	 */
+	@Override
 	public void add(String song) {
 		mediaListPlayer.mediaPlayer().mediaPlayer().media().prepare(song);
 		mediaListPlayer.mediaPlayer().mediaPlayer().media().parsing().parse();
@@ -89,42 +86,32 @@ public class VLCJListPlayer implements Player{
         }
 	}
 	
-	/**
-	 * Add multiple songs to the queue (using their path)
-	 * @param songs: arraylist of paths to the audio files
-	 */
+	@Override
 	public void addMultiple(List<String> songs) {
 		for(String song : songs)
 			add(song);
 	}
 	
-	/**
-	 * Start playing the list (will loop at the end)
-	 */
+	@Override
 	public void play() {
 		paused = false;
 		mediaListPlayer.controls().play();
 	}
 	
-	/**
-	 * pause playback
-	 */
+	@Override
 	public void pause() {
 		paused = true;
 		mediaListPlayer.controls().pause();
 	}
 	
-	/**
-	 * go to next song. If playback is paused, resume.
-	 */
+	
+	@Override
 	public void next() {
 		paused = false;
 		mediaListPlayer.controls().playNext();
 	}
 	
-	/**
-	 * Go to previous song. If playback is paused, resume.
-	 */
+	@Override
 	public void previous() {
 		paused = false;
 		mediaListPlayer.controls().playPrevious();
@@ -133,15 +120,14 @@ public class VLCJListPlayer implements Player{
 	/**
 	 * Stop playback. Unused in the ui for now
 	 */
+	@Override
 	public void stop() {
 		mediaListPlayer.controls().stop();
 		mediaListPlayer.release(); // once the player is stopped, release it to free up ram
 		// it is not supposed to be playing again after that...
 	}
 	
-	/**
-	 * set the volume to a precise int, between the minimum and maximum set in the class constants. Constants are public.
-	 */
+	@Override
 	public void setVolume(int volume) {
 		Helper.check(volume <= MAX_VOLUME, "You cannot set the volume this high");
 		Helper.check(volume >= MIN_VOLUME, "You cannot set the volume this low");
@@ -149,82 +135,42 @@ public class VLCJListPlayer implements Player{
 		this.volume = volume;
 	}
 	
-	/**
-	 * get the volume level
-	 * @return volume
-	 */
+	@Override
 	public int getVolume() {
 		return volume;
 	}
 	
-	/**
-	 * Increment the volume by a certain value
-	 * available through getVolumeIncrement(), default is 5
-	 * edit it through setVolumeIncrement
-	 */
-	public void volumeUp() {
-		if(volume <= MAX_VOLUME - incr)
-			setVolume(volume + incr);
-	}
-	
-	/**
-	 * decrement the volume by a certain value
-	 * available through getVolumeIncrement(), default is 5
-	 * edit it through setVolumeIncrement
-	 */
-	public void volumeDown() {
-		if(volume > MIN_VOLUME + incr)
-			setVolume(volume - incr);
-	}
-
-	/**
-	 * Checks if playback is paused
-	 * useful if you want to have only one play/pause button
-	 */
+	@Override
 	public boolean isPaused() {
 		return paused;
 	}
 
-	/**
-	 * set the amount by which the volume is modified
-	 * affects volumeUp() and volumeDown()
-	 */
+	@Override
 	public void setVolumeIncrement(int incr) {
 		this.incr = incr;
 	}
 	
-	/**
-	 * get the increment of the volume
-	 */
+	@Override
 	public int getVolumeIncrement() {
 		return incr;
 	}
 	
-	/**
-	 * Updates the function that is executed when the metadata for the new playing media becomes available
-	 * @param r > ideally a lambda function that uses the functions below to get their info
-	 */
+	@Override
 	public void setUpdateMediaAction(Runnable r) {
 		mediaUpdateAction = r;
 	}
 	
-	/**
-	 * get the title of the song currently playing
-	 */
+	@Override
 	public String nowPlayingTitle() {
 		return currentMedia.meta().get(Meta.TITLE);
 	}
 	
-	/**
-	 * get the artist of the song currently playing
-	 */
+	@Override
 	public String nowPlayingArtist() {
 		return currentMedia.meta().get(Meta.ARTIST);
 	}
 	
-	/**
-	 * get the album of the song currently playing
-	 */
+	@Override
 	public String nowPlayingAlbum() {
 		return currentMedia.meta().get(Meta.ALBUM);
 	}
@@ -249,6 +195,15 @@ public class VLCJListPlayer implements Player{
 	public long getDuration() {
 		// this cannot be implemented due to the limitations of this player
 		return 0;
+	}
+
+	@Override
+	/**
+	 * return the embedded cover URI provided by libvlc
+	 */
+	public URI getEmbeddedCoverUri() throws URISyntaxException{
+		String uri = mediaListPlayer.mediaPlayer().mediaPlayer().media().meta().get(Meta.ARTWORK_URL);
+		return (uri == null)? null : new URI(uri);
 	}
 	
 }

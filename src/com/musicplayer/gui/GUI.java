@@ -1,5 +1,6 @@
 package com.musicplayer.gui;
 
+import java.net.URI;
 
 /**
  * Defines the minimum framework to implement a player to be a drop-in replacement in Main.
@@ -11,6 +12,8 @@ public interface GUI {
 	public void showWindow();
 	// set the filename to the image to display in the album art field
 	public void setAlbumArt(String filename);
+	// set the album art with an URI
+	public void setAlbumArt(URI uri);
 	// set the information to display about the track
 	public void setTrackLabel(String label);
 	// set the name of the window
