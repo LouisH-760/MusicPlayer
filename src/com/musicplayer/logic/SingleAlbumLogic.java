@@ -19,7 +19,6 @@ import com.musicplayer.scanner.Scanner;
  */
 public class SingleAlbumLogic implements Logic {
 	private final Runnable updateTitleLabel = () -> {
-		gui.setTrackLabel("Whiteout");
 		String withArtist = player.nowPlayingArtist() + " - " + player.nowPlayingTitle(); 	// test label to check for
 																							// width
 		if (!gui.isStringTooWide(withArtist)) // if it is narrow enough to fit on the screen
