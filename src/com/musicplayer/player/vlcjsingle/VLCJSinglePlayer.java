@@ -1,4 +1,4 @@
-package com.musicplayer.player;
+package com.musicplayer.player.vlcjsingle;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.musicplayer.misc.Helper;
+import com.musicplayer.player.Player;
 
 /**
  * Implements the player interface by using a player per track instead

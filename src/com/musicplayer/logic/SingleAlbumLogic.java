@@ -7,7 +7,7 @@ import java.util.List;
 import com.musicplayer.gui.GUI;
 import com.musicplayer.gui.swing.SwingGUI;
 import com.musicplayer.player.Player;
-import com.musicplayer.player.VLCJSinglePlayer;
+import com.musicplayer.player.vlcjsingle.VLCJSinglePlayer;
 import com.musicplayer.scanner.FolderScanner;
 import com.musicplayer.scanner.Scanner;
 
