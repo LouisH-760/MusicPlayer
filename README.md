@@ -22,6 +22,7 @@ The player alone:
 The player and it's associated terminal side by side:
 ![player and console](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/Fullscreen.png)
 
+
 ## VLCJ License
 
 ```
