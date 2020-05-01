@@ -128,7 +128,11 @@ public interface Player {
 	 * Get the duration of the current track (long, in milliseconds)
 	 */
 	public long getDuration();
-	// get an url to the embedded artwork
-	// (for the VLCJ player, this is a path to a cached copy of the artwork)
+	/**
+	 * get an url to the embedded artwork
+	 *  (for the VLCJ player, this is a path to a cached copy of the artwork)
+	 * @return : URI to the album art
+	 * @throws URISyntaxException in case the URI is invalid
+	 */
 	public URI getEmbeddedCoverUri() throws URISyntaxException;
 }
