@@ -1,4 +1,4 @@
-package com.musicplayer.gui;
+package com.musicplayer.gui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.musicplayer.gui.GUI;
 import com.musicplayer.keyboard.ShortcutBinding;
 
 /**
