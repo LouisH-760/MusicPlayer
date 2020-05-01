@@ -16,6 +16,9 @@
 
 ## Screenshots
 ### Current Swing GUI
+
+keep in mind that, when possible, the player will display cover art present in the folder or, when present, embedded cover art.
+
 The player alone:  
 ![Player](https://raw.githubusercontent.com/LouisH-760/MusicPlayer/master/Screenshots/alone.png)
 
