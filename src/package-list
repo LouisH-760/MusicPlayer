@@ -1,0 +1,9 @@
+com.musicplayer
+com.musicplayer.gui
+com.musicplayer.gui.swing
+com.musicplayer.keyboard
+com.musicplayer.logic
+com.musicplayer.misc
+com.musicplayer.player
+com.musicplayer.player.vlcjsingle
+com.musicplayer.scanner
