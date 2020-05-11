@@ -7,6 +7,8 @@ public interface Song {
 	String getArtist(); 
 	// a song can have a different artist than the album
 	// see splits, compilations, ...
+	String getAlbumArtist();
+	String getAlbum();
 	String getLocation();
 	// might need to be changed if stuff is to be done in a networked manner
 	URI getCoverUri();

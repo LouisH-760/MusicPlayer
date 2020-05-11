@@ -13,17 +13,21 @@ import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
 public class LocalSong implements Song{
 
-	private final Object NULL_RETURN = null;
-	private final String FAILED_FORMAT = "Song at location %s couldn't be parsed (failed)";
+	private final Object NULL_RETURN 	= null;
+	private final String FAILED_FORMAT	= "Song at location %s couldn't be parsed (failed)";
 	private final String TIMEOUT_FORMAT = "Song at location %s couldn't be parsed (timeout)";
-	private final String NO_URI_FORMAT  = "Song at location %s doesn't have a valid URI (exception thrown)";
+	private final String NO_URI_FORMAT 	= "Song at location %s doesn't have a valid URI (exception thrown)";
 	
+	// misc. variables
 	private boolean parsed;
-	private String location;
-	private String title;
-	private String artist;
-	private URI coverUri;
 	private AudioPlayerComponent parser;
+	// track infos
+	private String 	location;
+	private String 	title;
+	private String 	artist;
+	private String	albumArtist;
+	private String 	album;
+	private URI 	coverUri;
 	
 	/**
 	 * Build a song object from a song path.
@@ -46,8 +50,10 @@ public class LocalSong implements Song{
 					// if parsing timed out
 					throw new IllegalArgumentException(String.format(TIMEOUT_FORMAT, location));
 				} else if(status == MediaParsedStatus.DONE) {
-					title = media.meta().get(Meta.TITLE);
-					artist = media.meta().get(Meta.ARTIST);
+					title 		= media.meta().get(Meta.TITLE);
+					artist 		= media.meta().get(Meta.ARTIST);
+					albumArtist = media.meta().get(Meta.ALBUM_ARTIST);
+					album 		= media.meta().get(Meta.ALBUM);
 					// first, get the uri in a string
 					String _uri = media.meta().get(Meta.ARTWORK_URL);
 					// if the uri isn't null, parse it and set it to our variable
@@ -103,6 +109,22 @@ public class LocalSong implements Song{
 	}
 	
 	/**
+	 * get the album artist
+	 */
+	@Override
+	public String getAlbumArtist() {
+		return (String)protect(albumArtist);
+	}
+
+	/**
+	 * get the album name
+	 */
+	@Override
+	public String getAlbum() {
+		return (String)protect(album);
+	}
+	
+	/**
 	 * Return null (can be set via class constant) if the song wasn't parsed yet or the object is null, returns the parsed object otherwise
 	 * @param o : object to return (or not)
 	 * @return o if song was parsed and the object isn't null, null otherwise
@@ -131,5 +153,4 @@ public class LocalSong implements Song{
 	        parser.release();
 		}
 	}
-
 }
