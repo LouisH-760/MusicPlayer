@@ -27,7 +27,7 @@ public class LocalAlbum implements Album{
 	}
 
 	@Override
-	public Song[] getSongs() {
+	public List<Song> getSongs() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -60,12 +60,6 @@ public class LocalAlbum implements Album{
 	public void setArtist(String artist) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public List<Song> getSongs() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
