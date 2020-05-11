@@ -7,7 +7,7 @@ import java.util.List;
  * @author louis Hermier
  * See folderScanner for an example of implementation
  */
-public interface Scanner {
+public interface SimpleScanner {
 	/**
 	 *  get the cover art to display
 	 * @return a list of the images that match the "cover art" criteria (ie named Cover.ext, ...)

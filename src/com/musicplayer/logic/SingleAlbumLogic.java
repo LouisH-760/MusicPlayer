@@ -9,7 +9,7 @@ import com.musicplayer.gui.swing.SwingGUI;
 import com.musicplayer.player.Player;
 import com.musicplayer.player.vlcjsingle.VLCJSinglePlayer;
 import com.musicplayer.scanner.FolderScanner;
-import com.musicplayer.scanner.Scanner;
+import com.musicplayer.scanner.SimpleScanner;
 
 /**
  * Scan a folder, build the GUI and start playback
@@ -40,7 +40,7 @@ public class SingleAlbumLogic implements Logic {
 	};
 	private static Player player;
 	private static final String DEFAULT_ART = "default.png";
-	private static Scanner scanner;
+	private static SimpleScanner scanner;
 	private static List<String> songs;
 	private static List<String> covers;
 	private static List<String> images;
