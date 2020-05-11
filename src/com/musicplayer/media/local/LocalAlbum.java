@@ -1,89 +1,103 @@
 package com.musicplayer.media.local;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.musicplayer.media.Album;
 import com.musicplayer.media.Song;
+import com.musicplayer.misc.Helper;
 
 public class LocalAlbum implements Album{
 
+	private final String HIGH_FORMAT 	= "index must be < %d";
+	private final String LOW_MSG		= "Index must be >= 0";
+	
+	private String name;
+	private String artist;
+	private String date;
+	private URI coverUri;
+	private List<Song> songs;
+	
+	public LocalAlbum() {
+		songs = new ArrayList<Song>();
+	}
+	
+	public LocalAlbum(String name) {
+		this();
+		this.name = name;
+	}
+	
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
 	public String getArtist() {
-		// TODO Auto-generated method stub
-		return null;
+		return artist;
 	}
 
 	@Override
-	public String getNumberOfSongs() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getNumberOfSongs() {
+		return songs.size();
 	}
 
 	@Override
 	public List<Song> getSongs() {
-		// TODO Auto-generated method stub
-		return null;
+		return songs;
 	}
 
 	@Override
 	public Song getSong(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		checkIndexRange(index);
+		return songs.get(index);
 	}
 
 	@Override
 	public String getDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return date;
 	}
 
 	@Override
 	public URI getCoverArtUri() {
-		// TODO Auto-generated method stub
-		return null;
+		return coverUri;
 	}
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
-		
+		this.name = name;
 	}
 
 	@Override
 	public void setArtist(String artist) {
-		// TODO Auto-generated method stub
-		
+		this.artist = artist;
 	}
 
 	@Override
 	public void addSong(Song song) {
-		// TODO Auto-generated method stub
-		
+		songs.add(song);
 	}
 
 	@Override
 	public void remSong(int index) {
-		// TODO Auto-generated method stub
-		
+		checkIndexRange(index);
+		songs.remove(index);
 	}
 
 	@Override
 	public void setDate(String date) {
-		// TODO Auto-generated method stub
-		
+		this.date = date;
 	}
 
 	@Override
 	public void setCoverArtUri(URI coverUri) {
-		// TODO Auto-generated method stub
-		
+		this.coverUri = coverUri;
+	}
+	
+	private void checkIndexRange(int index) {
+		Helper.check(index >= 0, LOW_MSG);
+		Helper.check(index < getNumberOfSongs(), String.format(HIGH_FORMAT, getNumberOfSongs()));
 	}
 
 }

@@ -8,7 +8,7 @@ public interface Album {
 	void setName(String name);
 	String getArtist();
 	void setArtist(String artist);
-	String getNumberOfSongs();
+	int getNumberOfSongs();
 	List<Song> getSongs();
 	void addSong(Song song);
 	void remSong(int index);

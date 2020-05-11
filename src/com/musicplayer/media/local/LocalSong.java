@@ -27,6 +27,7 @@ public class LocalSong implements Song{
 	private String 	artist;
 	private String	albumArtist;
 	private String 	album;
+	private String 	date;
 	private URI 	coverUri;
 	
 	/**
@@ -54,6 +55,7 @@ public class LocalSong implements Song{
 					artist 		= media.meta().get(Meta.ARTIST);
 					albumArtist = media.meta().get(Meta.ALBUM_ARTIST);
 					album 		= media.meta().get(Meta.ALBUM);
+					date		= media.meta().get(Meta.DATE);
 					// first, get the uri in a string
 					String _uri = media.meta().get(Meta.ARTWORK_URL);
 					// if the uri isn't null, parse it and set it to our variable
@@ -122,6 +124,14 @@ public class LocalSong implements Song{
 	@Override
 	public String getAlbum() {
 		return (String)protect(album);
+	}
+
+	/**
+	 * get the date
+	 */
+	@Override
+	public String getDate() {
+		return (String)protect(date);
 	}
 	
 	/**

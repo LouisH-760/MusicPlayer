@@ -10,6 +10,7 @@ public interface Song {
 	String getAlbumArtist();
 	String getAlbum();
 	String getLocation();
+	String getDate();
 	// might need to be changed if stuff is to be done in a networked manner
 	URI getCoverUri();
 }
