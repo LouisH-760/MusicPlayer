@@ -12,7 +12,7 @@ import com.musicplayer.misc.Helper;
  * @author louis Hermier
  *
  */
-public class FolderScanner implements Scanner {
+public class FolderScanner implements SimpleScanner {
 	private static final String DIR_MSG = "%s isn't a valid directory.";
 	private static final String EXIST_MSG = "%s doesn't exist.";
 
