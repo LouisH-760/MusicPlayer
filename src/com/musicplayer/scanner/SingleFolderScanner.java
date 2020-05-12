@@ -59,7 +59,7 @@ public class SingleFolderScanner implements Scanner {
 		return songs;
 	}
 	
-	private void parse() throws URISyntaxException{
+	private void parse(){
 		// create LocalSong objects for each song
 		for(String songPath : getAllMusicFiles()) {
 			_song = new LocalSong(songPath);
@@ -78,7 +78,6 @@ public class SingleFolderScanner implements Scanner {
 			// - else, if there are any images in the folder, use that
 			// - else, use the default picture
 			URI _uri = _song.getCoverUri();
-			System.out.println(_uri);
 			if(_uri != null && !(_uri.toASCIIString().contains("attachment"))) {
 				System.out.println("Using embedded art");
 				album.setCoverArtUri(_uri);
@@ -95,6 +94,18 @@ public class SingleFolderScanner implements Scanner {
 		}
 		
 		for(Song song : songs) {
+			// if a song isn't parsed, block execution.
+			// Why that?
+			// This is the last place in the scanner where this can be done
+			// It should be replaces by setting an event?
+			while(!(song.isParsed())) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			album.addSong(song);
 		}
 		albums.add(album);

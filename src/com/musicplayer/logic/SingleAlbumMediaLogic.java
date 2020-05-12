@@ -93,7 +93,6 @@ public class SingleAlbumMediaLogic implements Logic {
 	private void addSongs() {
 		for(Song song : album.getSongs()) {
 			System.out.println("adding " + song);
-			System.out.println(song.getLocation());
 			player.add(song.getLocation());
 		}
 	}

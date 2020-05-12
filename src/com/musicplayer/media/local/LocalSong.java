@@ -68,10 +68,11 @@ public class LocalSong implements Song{
 						// the cover uri is then null
 						coverUri = null;
 					}
-					// release every VLCJ component, as they aren't needed anymore
-					media.release();
 					// parsing done!
 					parsed = true;
+					// release every VLCJ component, as they aren't needed anymore
+					media.release();
+					
 				}
 			}
 		});
@@ -143,9 +144,14 @@ public class LocalSong implements Song{
 	 * @return o if song was parsed and the object isn't null, null otherwise
 	 */
 	private Object protect(Object o) {
-		if(parsed || o == null)
+		if(!(parsed) || o == null)
 			return NULL_RETURN;
 		else
 			return o;
+	}
+
+	@Override
+	public boolean isParsed() {
+		return parsed;
 	}	
 }
