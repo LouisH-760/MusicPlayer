@@ -134,6 +134,10 @@ public class LocalSong implements Song{
 		return (String)protect(date);
 	}
 	
+	public String toString() {
+		return location;
+	}
+	
 	/**
 	 * Return null (can be set via class constant) if the song wasn't parsed yet or the object is null, returns the parsed object otherwise
 	 * @param o : object to return (or not)

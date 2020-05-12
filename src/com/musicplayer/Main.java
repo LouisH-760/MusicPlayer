@@ -1,7 +1,7 @@
 package com.musicplayer;
 
 import com.musicplayer.logic.Logic;
-import com.musicplayer.logic.SingleAlbumLogic;
+import com.musicplayer.logic.SingleAlbumMediaLogic;
 
 /**
  * Main method: create an instance of the wanted logic and start it
@@ -14,11 +14,13 @@ public class Main {
 	
 	public static void main(String[] args) throws InterruptedException {
 		try {
-			logic = new SingleAlbumLogic(args);
+			logic = new SingleAlbumMediaLogic(args);
 			logic.start();
 		}
 		catch (Exception e) {
 			System.err.println(e.toString());
+			System.err.println("stacktrace:");
+			e.printStackTrace();
 		}
 		
 	}

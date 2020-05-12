@@ -15,6 +15,8 @@ public class SingleAlbumMediaLogic implements Logic {
 
 	private final Runnable updateTitleLabel;
 	
+	private static final String DEFAULT_IMAGE = "default.png";
+	
 	private Scanner mediaScanner;
 	private GUI gui;
 	private Player player;
@@ -40,7 +42,10 @@ public class SingleAlbumMediaLogic implements Logic {
 				gui.setTrackLabel(withArtist); // display title and artist (artist - title)
 			else
 				gui.setTrackLabel(player.nowPlayingTitle()); // else, only display the title
-			gui.setAlbumArt(album.getCoverArtUri());
+			if(album.getCoverArtUri() != null)
+				gui.setAlbumArt(album.getCoverArtUri());
+			else
+				gui.setAlbumArt(DEFAULT_IMAGE);
 		};
 		
 		prepare();
@@ -53,7 +58,10 @@ public class SingleAlbumMediaLogic implements Logic {
 	}
 	
 	private void prepare() {
-		gui.setAlbumArt(album.getCoverArtUri());
+		if(album.getCoverArtUri() != null)
+			gui.setAlbumArt(album.getCoverArtUri());
+		else
+			gui.setAlbumArt(DEFAULT_IMAGE);
 		gui.setTrackLabel(album.getName());
 		gui.setWindowName(album.getName());
 		setRunnables();

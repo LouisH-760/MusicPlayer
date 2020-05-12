@@ -39,6 +39,7 @@ public class SingleFolderScanner implements Scanner {
 	
 	public SingleFolderScanner(String path) throws URISyntaxException {
 		albums = new ArrayList<Album>();
+		songs = new ArrayList<Song>();
 		File file = new File(path);
 		Helper.check(file.exists(), String.format(EXIST_MSG, path));
 		Helper.check(file.isDirectory(), String.format(DIR_MSG, path));
@@ -58,10 +59,11 @@ public class SingleFolderScanner implements Scanner {
 		return songs;
 	}
 	
-	private void parse() throws URISyntaxException {
+	private void parse() throws URISyntaxException{
 		// create LocalSong objects for each song
 		for(String songPath : getAllMusicFiles()) {
 			_song = new LocalSong(songPath);
+			System.out.println(_song);
 			songs.add(_song);
 		}
 		// if there is one song or more and the first song isn't null, 
@@ -79,9 +81,17 @@ public class SingleFolderScanner implements Scanner {
 			if(_song.getCoverUri() != null) {
 				album.setCoverArtUri(_song.getCoverUri());
 			} else if(getCoverArt().size() > 0) {
-				album.setCoverArtUri(new URI(getCoverArt().get(0)));
+				try {
+					album.setCoverArtUri(new URI(getCoverArt().get(0)));
+				} catch (URISyntaxException e) {
+					album.setCoverArtUri(null);
+				}
 			} else if(getAllImageFiles().size() > 0) {
-				album.setCoverArtUri(new URI(getAllImageFiles().get(0)));
+				try {
+					album.setCoverArtUri(new URI(getAllImageFiles().get(0)));
+				} catch (URISyntaxException e) {
+					album.setCoverArtUri(null);
+				}
 			} else {
 				album.setCoverArtUri(new URI(DEFAULT_IMAGE));
 			}
