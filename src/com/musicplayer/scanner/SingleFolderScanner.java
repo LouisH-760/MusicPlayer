@@ -63,7 +63,6 @@ public class SingleFolderScanner implements Scanner {
 		// create LocalSong objects for each song
 		for(String songPath : getAllMusicFiles()) {
 			_song = new LocalSong(songPath);
-			System.out.println(_song);
 			songs.add(_song);
 		}
 		// if there is one song or more and the first song isn't null, 
@@ -78,23 +77,25 @@ public class SingleFolderScanner implements Scanner {
 			// - else, if there is a cover in the folder, use that
 			// - else, if there are any images in the folder, use that
 			// - else, use the default picture
-			if(_song.getCoverUri() != null) {
-				album.setCoverArtUri(_song.getCoverUri());
+			URI _uri = _song.getCoverUri();
+			System.out.println(_uri);
+			if(_uri != null && !(_uri.toASCIIString().contains("attachment"))) {
+				System.out.println("Using embedded art");
+				album.setCoverArtUri(_uri);
 			} else if(getCoverArt().size() > 0) {
-				try {
-					album.setCoverArtUri(new URI(getCoverArt().get(0)));
-				} catch (URISyntaxException e) {
-					album.setCoverArtUri(null);
-				}
+				System.out.println("Using external cover art");
+				album.setCoverArtPath(getCoverArt().get(0));
 			} else if(getAllImageFiles().size() > 0) {
-				try {
-					album.setCoverArtUri(new URI(getAllImageFiles().get(0)));
-				} catch (URISyntaxException e) {
-					album.setCoverArtUri(null);
-				}
+				System.out.println("Defaulting to local image");
+				album.setCoverArtPath(getAllImageFiles().get(0));
 			} else {
-				album.setCoverArtUri(new URI(DEFAULT_IMAGE));
+				System.out.println("Defaulting to default image");
+				album.setCoverArtPath(DEFAULT_IMAGE);
 			}
+		}
+		
+		for(Song song : songs) {
+			album.addSong(song);
 		}
 		albums.add(album);
 	}

@@ -70,7 +70,6 @@ public class LocalSong implements Song{
 					}
 					// release every VLCJ component, as they aren't needed anymore
 					media.release();
-					releasePlayer();
 					// parsing done!
 					parsed = true;
 				}
@@ -135,7 +134,7 @@ public class LocalSong implements Song{
 	}
 	
 	public String toString() {
-		return location;
+		return getArtist() + " - " + getTitle();
 	}
 	
 	/**
@@ -148,23 +147,5 @@ public class LocalSong implements Song{
 			return NULL_RETURN;
 		else
 			return o;
-	}
-	
-	/**
-	 * Release the player and AudioPlayerComponent
-	 */
-	private void releasePlayer() {
-		if(parser != null) {
-			// first; release the media player
-			// It is not allowed to call back into LibVLC from an event handling thread, so submit() is used
-	        parser.mediaPlayer().submit(new Runnable() {
-	            @Override
-	            public void run() {
-	                parser.mediaPlayer().release();
-	            }
-	        });
-	        // release, the whole component then.
-	        parser.release();
-		}
-	}
+	}	
 }

@@ -17,6 +17,7 @@ public class LocalAlbum implements Album{
 	private String artist;
 	private String date;
 	private URI coverUri;
+	private String coverPath;
 	private List<Song> songs;
 	
 	public LocalAlbum() {
@@ -98,6 +99,16 @@ public class LocalAlbum implements Album{
 	private void checkIndexRange(int index) {
 		Helper.check(index >= 0, LOW_MSG);
 		Helper.check(index < getNumberOfSongs(), String.format(HIGH_FORMAT, getNumberOfSongs()));
+	}
+
+	@Override
+	public String getCoverArtPath() {
+		return coverPath;
+	}
+
+	@Override
+	public void setCoverArtPath(String path) {
+		this.coverPath = path;
 	}
 
 }

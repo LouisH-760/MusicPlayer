@@ -17,5 +17,7 @@ public interface Album {
 	void setDate(String date);
 	// return the formatted date for display
 	URI getCoverArtUri();
+	String getCoverArtPath();
 	void setCoverArtUri(URI coverUri);
+	void setCoverArtPath(String path);
 }

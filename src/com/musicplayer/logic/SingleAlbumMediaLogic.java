@@ -45,7 +45,7 @@ public class SingleAlbumMediaLogic implements Logic {
 			if(album.getCoverArtUri() != null)
 				gui.setAlbumArt(album.getCoverArtUri());
 			else
-				gui.setAlbumArt(DEFAULT_IMAGE);
+				gui.setAlbumArt(album.getCoverArtPath());
 		};
 		
 		prepare();
@@ -88,11 +88,12 @@ public class SingleAlbumMediaLogic implements Logic {
 		player.setPositionUpdatedAction(() -> gui.setSeekbarPosition(player.getPosition()));
 		gui.setSeekbarMovedAction(() -> player.setPosition(gui.getSeekPosition()));
 		player.setUpdateMediaAction(updateTitleLabel);
-		gui.setGainedFocusAction(updateTitleLabel);
 	}
 	
 	private void addSongs() {
 		for(Song song : album.getSongs()) {
+			System.out.println("adding " + song);
+			System.out.println(song.getLocation());
 			player.add(song.getLocation());
 		}
 	}
